@@ -1,0 +1,333 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenTriviaSharp</name>
+    </assembly>
+    <members>
+        <member name="T:OpenTriviaSharp.Exceptions.OpenTriviaException">
+            <summary>
+            Open Trivia exception.
+            </summary>
+        </member>
+        <member name="T:OpenTriviaSharp.Models.Category">
+            <summary>
+            Represent category question from https://opentdb.com/api_category.php.
+            </summary>
+        </member>
+        <member name="T:OpenTriviaSharp.Models.Difficulty">
+            <summary>
+            Question difficulty.
+            </summary>
+        </member>
+        <member name="T:OpenTriviaSharp.Models.ResponseEncoding">
+            <summary>
+            Response encoding of JSON response.
+            </summary>
+        </member>
+        <member name="F:OpenTriviaSharp.Models.ResponseEncoding.Default">
+            <summary>
+            All values will be encoded in HTML encoding.
+            </summary>
+        </member>
+        <member name="F:OpenTriviaSharp.Models.ResponseEncoding.Base64">
+            <summary>
+            All values will be enoded in Base64.
+            </summary>
+        </member>
+        <member name="F:OpenTriviaSharp.Models.ResponseEncoding.Url3986">
+            <summary>
+            All values will be encoded in URL encoding (RFC 3986).
+            </summary>
+        </member>
+        <member name="T:OpenTriviaSharp.Models.TriviaQuestion">
+            <summary>
+            Trivia question.
+            </summary>
+        </member>
+        <member name="M:OpenTriviaSharp.Models.TriviaQuestion.#ctor(OpenTriviaSharp.Models.Category,OpenTriviaSharp.Models.TriviaType,OpenTriviaSharp.Models.Difficulty,System.String,System.String,System.String[])">
+            <summary>
+            	Create a <see cref="T:OpenTriviaSharp.Models.TriviaQuestion"/>.
+            </summary>
+            <param name="category">
+            	Question category.
+            </param>
+            <param name="type">
+            	Question type.
+            </param>
+            <param name="difficulty">
+            	Question difficulty.
+            </param>
+            <param name="question">
+            	Question.
+            </param>
+            <param name="correctAnswer">
+            	Question correct answer.
+            </param>
+            <param name="incorrectAnswers">
+            	Question incorrect answers.
+            </param>
+        </member>
+        <member name="P:OpenTriviaSharp.Models.TriviaQuestion.Category">
+            <summary>
+            Get the question <see cref="P:OpenTriviaSharp.Models.TriviaQuestion.Category"/>.
+            </summary>
+        </member>
+        <member name="P:OpenTriviaSharp.Models.TriviaQuestion.Type">
+            <summary>
+            Get the question <see cref="T:OpenTriviaSharp.Models.TriviaType"/>.
+            </summary>
+        </member>
+        <member name="P:OpenTriviaSharp.Models.TriviaQuestion.Difficulty">
+            <summary>
+            Get the question <see cref="T:OpenTriviaSharp.Models.Difficulty"/>.
+            </summary>
+        </member>
+        <member name="P:OpenTriviaSharp.Models.TriviaQuestion.Question">
+            <summary>
+            Get the question.
+            </summary>
+        </member>
+        <member name="P:OpenTriviaSharp.Models.TriviaQuestion.CorrectAnswer">
+            <summary>
+            Get the question correct answer.
+            </summary>
+        </member>
+        <member name="P:OpenTriviaSharp.Models.TriviaQuestion.IncorrectAnswers">
+            <summary>
+            Get the question incorrect answers.
+            </summary>
+        </member>
+        <member name="T:OpenTriviaSharp.Models.TriviaType">
+            <summary>
+            Question type.
+            </summary>
+        </member>
+        <member name="F:OpenTriviaSharp.Models.TriviaType.Multiple">
+            <summary>
+            Multiple choice.
+            </summary>
+        </member>
+        <member name="F:OpenTriviaSharp.Models.TriviaType.Boolean">
+            <summary>
+            True or False.
+            </summary>
+        </member>
+        <member name="T:OpenTriviaSharp.OpenTriviaClient">
+            <summary>
+            Open Trivia Database client.
+            </summary>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.#ctor(System.Net.Http.HttpClient,System.String)">
+            <summary>
+            Create <see cref="T:OpenTriviaSharp.OpenTriviaClient"/> instance.
+            </summary>
+            <param name="client">
+            	<see cref="T:System.Net.Http.HttpClient"/> object to send and receiving response.
+            </param>
+            <param name="sessionToken">
+            	Session token of Open Trivia for tracking requested question.
+            </param>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.Finalize">
+            <summary>
+            Release all resource that this object handle.
+            </summary>
+        </member>
+        <member name="P:OpenTriviaSharp.OpenTriviaClient.Token">
+            <summary>
+            Get current session token.
+            </summary>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.GetJsonResponseAsync``1(System.String)">
+            <summary>
+            	Get JSON response from url.
+            </summary>
+            <typeparam name="T">
+            	The type of the object to deserialize.
+            </typeparam>
+            <param name="url">
+            	API URL. 
+            </param>
+            <returns>
+            	The instance of <typeparamref name="T"/> being deserialized.
+            </returns>
+            <exception cref="T:OpenTriviaSharp.Exceptions.OpenTriviaException">
+            	Unexpected error occured.
+            </exception>
+            <exception cref="T:System.Net.Http.HttpRequestException">
+            	The request failed due to an underlying issue such as network connectivity, DNS
+                failure, server certificate validation or timeout.
+            </exception>
+            <exception cref="T:System.Text.Json.JsonException">
+            	The JSON is invalid.
+            </exception>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.ReadTriviaQuestion(System.Text.Json.JsonElement)">
+            <summary>
+            Read JSON data with encoding <see cref="F:OpenTriviaSharp.Models.ResponseEncoding.Default"/>.
+            </summary>
+            <param name="item"></param>
+            <returns>
+            	A <see cref="T:OpenTriviaSharp.Models.TriviaQuestion"/>.
+            </returns>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.ReadTriviaQuestionURL(System.Text.Json.JsonElement)">
+            <summary>
+            Read JSON data with encoding <see cref="F:OpenTriviaSharp.Models.ResponseEncoding.Url3986"/>.
+            </summary>
+            <param name="item"></param>
+            <returns>
+            	A <see cref="T:OpenTriviaSharp.Models.TriviaQuestion"/>.
+            </returns>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.ReadTriviaQuestionBase64(System.Text.Json.JsonElement)">
+            <summary>
+            Read JSON data with encoding <see cref="F:OpenTriviaSharp.Models.ResponseEncoding.Base64"/>.
+            </summary>
+            <param name="item"></param>
+            <returns>
+            	A <see cref="T:OpenTriviaSharp.Models.TriviaQuestion"/>.
+            </returns>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.AddUserAgent">
+            <summary>
+            Add browser user agent to <see cref="T:System.Net.Http.HttpClient"/>.
+            </summary>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.FromBase64(System.String)">
+            <summary>
+            	Convert base64 string to UTF-8 string.
+            </summary>
+            <param name="base64String">
+            	Base64 string to convert.
+            	</param>
+            <returns>
+            	UTF-8 string.
+            </returns>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.DetermineCategory(System.String)">
+            <summary>
+            	Convert JSON reponse category property to <see cref="T:OpenTriviaSharp.Models.Category"/>.
+            </summary>
+            <param name="category">
+            	Category string from JSON response.
+            </param>
+            <returns>
+            	<see cref="T:OpenTriviaSharp.Models.Category"/> based on paramater <paramref name="category"/>.
+            </returns>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.DetermineDifficulty(System.String)">
+            <summary>
+            	Convert JSON reponse difficulty property to <see cref="T:OpenTriviaSharp.Models.Difficulty"/>.
+            </summary>
+            <param name="difficulty">
+            	Difficulty string from JSON response.
+            </param>
+            <returns>
+            	<see cref="T:OpenTriviaSharp.Models.Difficulty"/> based on parameter <paramref name="difficulty"/>.
+            </returns>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.DetermineType(System.String)">
+            <summary>
+            	Convert JSON reponse type property to <see cref="T:OpenTriviaSharp.Models.TriviaType"/>.
+            </summary>
+            <param name="type">
+            	Type string from JSON response.
+            </param>
+            <returns>
+            	<see cref="T:OpenTriviaSharp.Models.TriviaType"/> based on parameter <paramref name="type"/>.
+            </returns>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.ResponseError(System.Byte)">
+            <summary>
+            	Get response message based on response code.
+            </summary>
+            <param name="responseCode">
+            	Response code in the JSON response.
+            </param>
+            <returns>
+            	Message based on response code.
+            </returns>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.GetQuestionAsync(System.Byte,OpenTriviaSharp.Models.Category,OpenTriviaSharp.Models.TriviaType,OpenTriviaSharp.Models.Difficulty,OpenTriviaSharp.Models.ResponseEncoding,System.String)">
+            <summary>
+            	Retrieves random <see cref="T:OpenTriviaSharp.Models.TriviaQuestion"/>.
+            </summary>
+            <param name="amount">
+            	 Amount of questions to be retrieved.
+            </param>
+            <param name="category">
+            	Category of the questions to be retrieved.
+            </param>
+            <param name="type">
+            	Type of the questions to be retrieved.
+            </param>
+            <param name="difficulty">
+            	 Difficulty of the questions to be retrieved.
+            </param>
+            <param name="encoding">
+            	 Encoding of the API response to be used.
+            </param>
+            <param name="sessionToken">
+            	Session token to be used.
+            </param>
+            <returns>
+            	Array of <see cref="T:OpenTriviaSharp.Models.TriviaQuestion"/> based on specified parameters.
+            </returns>
+            <exception cref="T:OpenTriviaSharp.Exceptions.OpenTriviaException">
+            	Unexpected error occured.
+            </exception>
+            <exception cref="T:System.Net.Http.HttpRequestException">
+            	The request failed due to an underlying issue such as network connectivity, DNS
+                failure, server certificate validation or timeout.
+            </exception>
+            <exception cref="T:System.Text.Json.JsonException">
+            	The JSON is invalid.
+            </exception>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.RequestTokenAsync">
+            <summary>
+            	Retrieves a new session token.
+            </summary>
+            <returns>
+            	New session token.
+            </returns>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.ResetTokenAsync(System.String)">
+            <summary>
+            	Resets a session token.
+            </summary>
+            <param name="sessionToken">
+            	Session token to be reset.
+            </param>
+            <returns>
+            	<see langword="true"/> if session token reseted; <see langword="false"/> otherwise.
+            </returns>
+            <exception cref="T:System.Text.Json.JsonException">
+            	The JSON is invalid.
+            </exception>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.CountQuestionAsync(OpenTriviaSharp.Models.Category,OpenTriviaSharp.Models.Difficulty)">
+            <summary>
+            	Retrieves number of question based on <see cref="T:OpenTriviaSharp.Models.Category"/>.
+            </summary>
+            <param name="category">
+            	Category of question.
+            </param>
+            <param name="difficulty">
+            	Difficulty of question.
+            </param>
+            <returns>
+            	Number of question.
+            </returns>
+        </member>
+        <member name="M:OpenTriviaSharp.OpenTriviaClient.CategoryListAsync">
+            <summary>
+            	Get category list.
+            </summary>
+            <returns>
+            	Array of tuple (id, name) of category.
+            </returns>
+        </member>
+    </members>
+</doc>

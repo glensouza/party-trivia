@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Shiroechi</Authors>
+    <Product>API wrapper for opentdb.com</Product>
+    <Copyright>Shiroechi</Copyright>
+    <RepositoryUrl>https://github.com/Shiroechi/OpenTriviaSharp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageProjectUrl>https://github.com/Shiroechi/OpenTriviaSharp</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <Description>API wrapper for opentdb.com</Description>
+    <PackageTags>opentdb trivia opentriviadatabase</PackageTags>
+    <Version>1.1.1</Version>
+    <PackageReleaseNotes>Change ResetToken() method return type</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>true</Optimize>
+    <DocumentationFile>D:\Project\C#\API\OpenTriviaSharp\OpenTriviaSharp.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <DocumentationFile>D:\Project\C#\API\OpenTriviaSharp\OpenTriviaSharp.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="system.text.json" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>

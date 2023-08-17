@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Title>OpenTriviaDbNet</Title>
+        <Authors>William Löf</Authors>
+        <Description>Asynchronous api implementation for Open Trivia Database (https://opentdb.com/)</Description>
+        <Summary>Asynchronous api implementation for Open Trivia Database (https://opentdb.com/)</Summary>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageProjectUrl>https://github.com/w-l0f/OpenTriviaDbNet</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/w-l0f/OpenTriviaDbNet/blob/master/LICENSE.md</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/w-l0f/OpenTriviaDbNet</RepositoryUrl>
+        <PackageVersion>1.0.2</PackageVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    </ItemGroup>
+
+</Project>
