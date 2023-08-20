@@ -19,6 +19,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Models\PartyTriviaShared.csproj" />
   </ItemGroup>
 </Project>
