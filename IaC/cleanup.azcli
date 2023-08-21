@@ -1,0 +1,16 @@
+az upgrade
+az login
+az account show
+az account set --subscription 66effa16-8b4b-4047-b8e1-d390ceddd4a5
+
+az group delete --name PartyTrivia --yes
+
+az staticwebapp secrets list --name PartyTriviaswa --resource-group PartyTrivia
+az staticwebapp secrets list --name PartyTriviaswa --query 'properties.apiKey'
+az staticwebapp secrets reset-api-key --name PartyTriviaswa --resource-group PartyTrivia --no-wait
+
+az functionapp keys set --resource-group PartyTrivia --name PartyTriviafunc --key-type functionKeys --key-name default
+az functionapp keys list --resource-group PartyTrivia --name PartyTriviafunc --query 'functionKeys.default'
+
+az functionapp config appsettings list --resource-group PartyTrivia --name PartyTriviafunc --query '[?name==`SignalrServiceConnectionString`].value'
+az functionapp config appsettings set --resource-group PartyTrivia --name PartyTriviafunc --settings "SignalrServiceConnectionString=abc"

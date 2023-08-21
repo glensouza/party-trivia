@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "staticSites_PartyTrivia_name": {
+            "value": null
+        },
+        "components_PartyTrivia_name": {
+            "value": null
+        },
+        "SignalR_partytrivia_name": {
+            "value": null
+        },
+        "databaseAccounts_partytrivia_name": {
+            "value": null
+        },
+        "workspaces_DefaultWorkspace_66effa16_8b4b_4047_b8e1_d390ceddd4a5_CUS_externalid": {
+            "value": null
+        }
+    }
+}
