@@ -11,6 +11,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartyTriviaAPI", "SWAAPI\Pa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHubPages", "GitHubPages\GitHubPages.csproj", "{091C1285-79B6-43FE-BF95-441944290A34}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SWA", "SWA", "{649F6C05-40C6-4260-9244-6FE0C0F00538}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IaC", "IaC", "{54EFF427-3F31-46BC-9B87-7BDAD7E7C93A}"
+	ProjectSection(SolutionItems) = preProject
+		IaC\cleanup.azcli = IaC\cleanup.azcli
+		IaC\main.bicep = IaC\main.bicep
+		IaC\parameters.json = IaC\parameters.json
+		IaC\mycommands.md = IaC\mycommands.md
+		IaC\rbac.ps1 = IaC\rbac.ps1
+		IaC\README.md = IaC\README.md
+		IaC\resources.bicep = IaC\resources.bicep
+		IaC\template.bicep = IaC\template.bicep
+		IaC\template.json = IaC\template.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{020D60E2-B20B-4A9C-B486-9BBBE10D2788}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,17 +48,21 @@ Global
 		{DA2371A3-4788-4B2A-A0F0-0FF8EBB4C948}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA2371A3-4788-4B2A-A0F0-0FF8EBB4C948}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA2371A3-4788-4B2A-A0F0-0FF8EBB4C948}.Release|Any CPU.Build.0 = Release|Any CPU
-		{091C1285-79B6-43FE-BF95-441944290A34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{091C1285-79B6-43FE-BF95-441944290A34}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{091C1285-79B6-43FE-BF95-441944290A34}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{091C1285-79B6-43FE-BF95-441944290A34}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3C931285-C20D-449F-8CB0-854E77C23261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3C931285-C20D-449F-8CB0-854E77C23261}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C931285-C20D-449F-8CB0-854E77C23261}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C931285-C20D-449F-8CB0-854E77C23261}.Release|Any CPU.Build.0 = Release|Any CPU
+		{091C1285-79B6-43FE-BF95-441944290A34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{091C1285-79B6-43FE-BF95-441944290A34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{091C1285-79B6-43FE-BF95-441944290A34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{091C1285-79B6-43FE-BF95-441944290A34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F4B1375B-C892-424D-9CB2-9FE2B5B47EDF} = {649F6C05-40C6-4260-9244-6FE0C0F00538}
+		{3C931285-C20D-449F-8CB0-854E77C23261} = {649F6C05-40C6-4260-9244-6FE0C0F00538}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAEC77B5-1FF5-4E89-86CD-620314C521C4}
