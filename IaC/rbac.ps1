@@ -22,7 +22,7 @@ else
     Set-AzContext -TenantId $tenantId -SubscriptionId $subscriptionId
 }
 
-New-AzADApplication -DisplayName $applicationName
+New-AzADApplication -DisplayName $applicationName-github-deployer
 $clientId = (Get-AzADApplication -DisplayName $applicationName).AppId
 $appObjectId = (Get-AzADApplication -DisplayName $applicationName).Id
 
