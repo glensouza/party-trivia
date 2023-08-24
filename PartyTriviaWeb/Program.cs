@@ -1,7 +1,7 @@
-﻿using GitHubPages;
-using GitHubPages.Data;
+﻿using PartyTriviaWeb.Data;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using PartyTriviaWeb;
 using Syncfusion.Blazor;
 using Syncfusion.Licensing;
 

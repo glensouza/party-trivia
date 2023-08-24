@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartyTriviaWeb", "SWAClient\PartyTriviaWeb.csproj", "{F4B1375B-C892-424D-9CB2-9FE2B5B47EDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartyTriviaAPI", "PartyTriviaAPI\PartyTriviaAPI.csproj", "{B959ED8C-E012-48A8-9FB5-66A40D04E414}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartyTriviaWeb", "PartyTriviaWeb\PartyTriviaWeb.csproj", "{F4B1375B-C892-424D-9CB2-9FE2B5B47EDF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartyTriviaShared", "Models\PartyTriviaShared.csproj", "{DA2371A3-4788-4B2A-A0F0-0FF8EBB4C948}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartyTriviaAPI", "SWAAPI\PartyTriviaAPI.csproj", "{3C931285-C20D-449F-8CB0-854E77C23261}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitHubPages", "GitHubPages\GitHubPages.csproj", "{091C1285-79B6-43FE-BF95-441944290A34}"
 EndProject
@@ -17,8 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IaC", "IaC", "{54EFF427-3F3
 	ProjectSection(SolutionItems) = preProject
 		IaC\cleanup.azcli = IaC\cleanup.azcli
 		IaC\main.bicep = IaC\main.bicep
-		IaC\parameters.json = IaC\parameters.json
 		IaC\mycommands.md = IaC\mycommands.md
+		IaC\parameters.json = IaC\parameters.json
 		IaC\rbac.ps1 = IaC\rbac.ps1
 		IaC\README.md = IaC\README.md
 		IaC\resources.bicep = IaC\resources.bicep
@@ -34,12 +34,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFi
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{0CB30909-E9A2-477A-835C-633A6D9A7034}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHubPage", "GitHubPage", "{2CE8317A-CDDE-4BA0-9B0E-DB1B18A3C77D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MAUI", "MAUI", "{049FE5D9-EC8D-44C8-8871-0EE23ED2D692}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartyTriviaComponents", "PartyTriviaComponents\PartyTriviaComponents.csproj", "{B89A6D75-0663-4772-B2F3-2EB0224F186A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyTriviaMAUI", "PartyTriviaMAUI\PartyTriviaMAUI.csproj", "{9A84487A-905D-41B1-8691-8AEFD419FB1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B959ED8C-E012-48A8-9FB5-66A40D04E414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B959ED8C-E012-48A8-9FB5-66A40D04E414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B959ED8C-E012-48A8-9FB5-66A40D04E414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B959ED8C-E012-48A8-9FB5-66A40D04E414}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4B1375B-C892-424D-9CB2-9FE2B5B47EDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F4B1375B-C892-424D-9CB2-9FE2B5B47EDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4B1375B-C892-424D-9CB2-9FE2B5B47EDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -48,21 +62,31 @@ Global
 		{DA2371A3-4788-4B2A-A0F0-0FF8EBB4C948}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA2371A3-4788-4B2A-A0F0-0FF8EBB4C948}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA2371A3-4788-4B2A-A0F0-0FF8EBB4C948}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3C931285-C20D-449F-8CB0-854E77C23261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3C931285-C20D-449F-8CB0-854E77C23261}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3C931285-C20D-449F-8CB0-854E77C23261}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3C931285-C20D-449F-8CB0-854E77C23261}.Release|Any CPU.Build.0 = Release|Any CPU
 		{091C1285-79B6-43FE-BF95-441944290A34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{091C1285-79B6-43FE-BF95-441944290A34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{091C1285-79B6-43FE-BF95-441944290A34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{091C1285-79B6-43FE-BF95-441944290A34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B89A6D75-0663-4772-B2F3-2EB0224F186A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B89A6D75-0663-4772-B2F3-2EB0224F186A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B89A6D75-0663-4772-B2F3-2EB0224F186A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B89A6D75-0663-4772-B2F3-2EB0224F186A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A84487A-905D-41B1-8691-8AEFD419FB1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A84487A-905D-41B1-8691-8AEFD419FB1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A84487A-905D-41B1-8691-8AEFD419FB1F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9A84487A-905D-41B1-8691-8AEFD419FB1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A84487A-905D-41B1-8691-8AEFD419FB1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A84487A-905D-41B1-8691-8AEFD419FB1F}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{B959ED8C-E012-48A8-9FB5-66A40D04E414} = {649F6C05-40C6-4260-9244-6FE0C0F00538}
 		{F4B1375B-C892-424D-9CB2-9FE2B5B47EDF} = {649F6C05-40C6-4260-9244-6FE0C0F00538}
-		{3C931285-C20D-449F-8CB0-854E77C23261} = {649F6C05-40C6-4260-9244-6FE0C0F00538}
+		{DA2371A3-4788-4B2A-A0F0-0FF8EBB4C948} = {0CB30909-E9A2-477A-835C-633A6D9A7034}
+		{091C1285-79B6-43FE-BF95-441944290A34} = {2CE8317A-CDDE-4BA0-9B0E-DB1B18A3C77D}
+		{B89A6D75-0663-4772-B2F3-2EB0224F186A} = {0CB30909-E9A2-477A-835C-633A6D9A7034}
+		{9A84487A-905D-41B1-8691-8AEFD419FB1F} = {049FE5D9-EC8D-44C8-8871-0EE23ED2D692}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CAEC77B5-1FF5-4E89-86CD-620314C521C4}

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.10" PrivateAssets="all" />
-	    <PackageReference Include="Syncfusion.Blazor.Grid" Version="22.2.10" />
+    <PackageReference Include="Syncfusion.Blazor.Grid" Version="22.2.10" />
     <PackageReference Include="Syncfusion.Blazor.BarcodeGenerator" Version="22.2.10" />
     <PackageReference Include="Syncfusion.Blazor.ProgressBar" Version="22.2.10" />
     <PackageReference Include="Syncfusion.Blazor.ImageEditor" Version="22.2.10" />
