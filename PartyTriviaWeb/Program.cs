@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using PartyTriviaWeb;
 using Syncfusion.Blazor;
-using Syncfusion.Licensing;
-
-string? licenseKey = "Ngo9BigBOggjHTQxAR8/V1NGaF1cWGhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEZjUX1ccXBRRmRVUE1zVg==";
 
 WebAssemblyHostBuilder? builder = WebAssemblyHostBuilder.CreateDefault(args);
-SyncfusionLicenseProvider.RegisterLicense(licenseKey);
+
+//Register Syncfusion license 
+string? licenseKey = "MjY2MTcyNkAzMjMyMmUzMDJlMzBmMHdxTjREUDJxUXQ3aEF2M0pmWWFMS25SMjRGaHNGWXhpZHdEYjdLbWdRPQ==;MjY2MTcyN0AzMjMyMmUzMDJlMzBPUlZPSVBvdzZCbjJQanF1cTIvSEh4S2VXV2pkRW1zRGp1ZlVnVnI2alBFPQ==";
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(licenseKey);
+
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddSyncfusionBlazor();
