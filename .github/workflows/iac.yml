@@ -70,6 +70,10 @@ jobs:
         parameters: location=centralus commonResourceName=${{ vars.RESOURCE_NAME }}
         failOnStdErr: false
         deploymentName: bicep-ci-${{ github.run_id }}
+        deploymentMode: Complete
+
+    - name: Validate Hostname
+      run: echo ${{ steps.deploy.outputs.defaultHostname }}
 
     - name: Set Cloudflare DNS
       env:
