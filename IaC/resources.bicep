@@ -51,6 +51,37 @@ resource signalRService 'Microsoft.SignalRService/SignalR@2020-05-01' = {
   }
 }
 
+
+resource appServicePlanFunc 'Microsoft.Web/serverfarms@2022-03-01' = {
+  name: appServicePlanFuncName
+  location: location
+  sku: {
+    name: appServicePlanFuncSKU
+    tier: appServicePlanFuncTier
+  }
+  kind: 'functionapp'
+  properties: {}
+}
+
+resource functionApp 'Microsoft.Web/sites@2022-09-01' = {
+  name: functionAppName
+  location: location
+  kind: 'functionapp'
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    enabled: true
+    serverFarmId: appServicePlanFunc.id
+    siteConfig: {
+      numberOfWorkers: 1
+      functionAppScaleLimit: 200
+      minimumElasticInstanceCount: 0
+    }
+    httpsOnly: true
+  }
+}
+
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
   name: storageAccountName
   location: location
@@ -108,6 +139,7 @@ resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2021-06-01' = {
     publicNetworkAccessForIngestion: 'Enabled'
     publicNetworkAccessForQuery: 'Enabled'
   }
+}
 
 resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   name: applicationInsightsName
@@ -121,50 +153,19 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   }
 }
 
-resource appServicePlanFunc 'Microsoft.Web/serverfarms@2022-03-01' = {
-  name: appServicePlanFuncName
-  location: location
-  sku: {
-    name: appServicePlanFuncSKU
-    tier: appServicePlanFuncTier
-  }
-  kind: 'functionapp'
-  properties: {}
-}
-
-resource functionApp 'Microsoft.Web/sites@2022-09-01' = {
-  name: functionAppName
-  location: location
-  kind: 'functionapp'
-  identity: {
-    type: 'SystemAssigned'
-  }
+resource functionAppConfiguration 'Microsoft.Web/sites/config@2022-09-01' = {
+  name: 'appsettings'
+  parent: functionApp
   properties: {
-    enabled: true
-    serverFarmId: appServicePlanFunc.id
-    siteConfig: {
-      numberOfWorkers: 1
-      functionAppScaleLimit: 200
-      minimumElasticInstanceCount: 0
-    }
-    httpsOnly: true
+    AzureWebJobsStorage: storageAccountConnectionString
+    APPINSIGHTS_INSTRUMENTATIONKEY: applicationInsights.properties.InstrumentationKey
+    netFrameworkVersion: 'v6.0'
+    managedPipelineMode: 'Integrated'
+    FUNCTIONS_EXTENSION_VERSION: '~4'
+    AzureSignalRConnectionString: 'Endpoint=https://${signalRService.name}.service.signalr.net;AccessKey=${signalRService.listKeys().primaryKey}'
   }
-
-  resource functionAppConfiguration 'config' = {
-    name: 'appsettings'
-    properties: {
-      AzureWebJobsStorage: storageAccountConnectionString
-      APPINSIGHTS_INSTRUMENTATIONKEY: applicationInsights.properties.InstrumentationKey
-      netFrameworkVersion: 'v6.0'
-      managedPipelineMode: 'Integrated'
-      FUNCTIONS_EXTENSION_VERSION: '~4'
-      AzureSignalRConnectionString: 'Endpoint=https://${signalRService.name}.service.signalr.net;AccessKey=${signalRService.listKeys().primaryKey}'
-      SpeechKey: speechService.listKeys().key1
-      SpeechRegion: location
-    }
-    dependsOn: [storageFunctionAppPermissions]
-  }  
-}
+  dependsOn: [storageFunctionAppPermissions]
+}  
 
 resource staticWebApp 'Microsoft.Web/staticSites@2020-12-01' = {
   name: webAppName

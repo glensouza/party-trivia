@@ -34,7 +34,16 @@ $subscriptionId = (Get-AzContext).Subscription.Id
 $tenantId = (Get-AzContext).Subscription.TenantId
 
 $subject = 'repo:' + $repoName + ':ref:refs/heads/main'
-New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience 'api://AzureADTokenExchange' -Issuer 'https://token.actions.githubusercontent.com' -Name 'GitHub-Actions' -Subject $subject
+New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience 'api://AzureADTokenExchange' -Issuer 'https://token.actions.githubusercontent.com' -Name 'GitHub-Actions-MainBranch' -Subject $subject
+
+$subject = 'repo:' + $repoName + ':environment:CleanupResources'
+New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience 'api://AzureADTokenExchange' -Issuer 'https://token.actions.githubusercontent.com' -Name 'GitHub-Actions-CleanupResources' -Subject $subject
+
+$subject = 'repo:' + $repoName + ':environment:IaCDeloy'
+New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience 'api://AzureADTokenExchange' -Issuer 'https://token.actions.githubusercontent.com' -Name 'GitHub-Actions-IaCDeloy' -Subject $subject
+
+$subject = 'repo:' + $repoName + ':environment:ResolveDNS'
+New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience 'api://AzureADTokenExchange' -Issuer 'https://token.actions.githubusercontent.com' -Name 'GitHub-Actions-ResolveDNS' -Subject $subject
 
 Write-Host "AZURE_TENANT_ID: $tenantId"
 Write-Host "AZURE_SUBSCRIPTION_ID: $subscriptionId"
