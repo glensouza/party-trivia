@@ -25,6 +25,7 @@ if ($null -ne $cnameRecords) {
 }
 else {
     # Create CNAME
+    Write-Host "Creating CNAME to www with value $Env:HostName"
     $body = @{
       "type" = "CNAME"
       "name" = "www"
