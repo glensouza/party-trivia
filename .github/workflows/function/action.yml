@@ -1,15 +1,13 @@
 name: Function App Build and Deploy 
-      
-on:
-  workflow_dispatch:
-  workflow_call:
-    secrets:
-      AZURE_TENANT_ID:
-        required: true
-      AZURE_SUBSCRIPTION_ID:
-        required: true
-      AZURE_CLIENT_ID:
-        required: true
+
+description: "A composite action to deploy a new Azure Container Registry"
+inputs:
+  AZURE_TENANT_ID:
+    required: true
+  AZURE_SUBSCRIPTION_ID:
+    required: true
+  AZURE_CLIENT_ID:
+    required: true
 
 permissions:
   id-token: write
