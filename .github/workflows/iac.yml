@@ -70,14 +70,13 @@ jobs:
         parameters: location=centralus commonResourceName=${{ vars.RESOURCE_NAME }}
         failOnStdErr: false
         deploymentName: bicep-ci-${{ github.run_id }}
-        deploymentMode: Complete
 
     - name: Get SWA Default Hostname
       id: swahostname
       uses: azure/CLI@v1
       with:
         azcliversion: latest
-        inlineScript: echo DEFAULT_HOSTNAME=$(az staticwebapp show -n ${{ vars.RESOURCE_NAME }} --query 'defaultHostname' | tr -d '"' >> "$GITHUB_OUTPUT" 
+        inlineScript: echo DEFAULT_HOSTNAME=$(az staticwebapp show -n ${{ vars.RESOURCE_NAME }} --query 'defaultHostname') | tr -d '"' >> "$GITHUB_OUTPUT" 
 
     - name: Validate Hostname
       run: echo ${{ steps.swahostname.outputs.DEFAULT_HOSTNAME }}
