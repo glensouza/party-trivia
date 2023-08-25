@@ -1,13 +1,17 @@
 name: Function App Build and Deploy 
 
 description: "Build and deploy Function App"
-inputs:
-  AZURE_TENANT_ID:
-    required: true
-  AZURE_SUBSCRIPTION_ID:
-    required: true
-  AZURE_CLIENT_ID:
-    required: true
+on:
+  workflow_call:
+    inputs:
+      AZURE_TENANT_ID:
+        required: true
+      AZURE_SUBSCRIPTION_ID:
+        required: true
+      AZURE_CLIENT_ID:
+        required: true
+      RESOURCE_NAME:
+        required: true
 
 permissions:
   id-token: write
