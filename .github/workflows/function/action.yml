@@ -1,6 +1,6 @@
 name: Function App Build and Deploy 
 
-description: "A composite action to deploy a new Azure Container Registry"
+description: "Build and deploy Function App"
 inputs:
   AZURE_TENANT_ID:
     required: true
