@@ -111,7 +111,8 @@ jobs:
   resolve-dns:
     runs-on: ubuntu-latest
     environment: ResolveDNS
-    needs: call-deploy-app-workflows
+    # needs: call-deploy-app-workflows
+    needs: provision-azure-resources
     steps:
       
     - name: Checkout code
