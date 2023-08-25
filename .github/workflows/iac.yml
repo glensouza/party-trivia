@@ -22,7 +22,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@main
 
-    - name: Set Cloudflare DNS
+    - name: Remove www Cloudflare DNS
       env:
         APIKey: ${{ secrets.CLOUDFLARE_APIKEY }}
         ZoneId: ${{ secrets.CLOUDFLARE_ZONEID }}
@@ -72,14 +72,21 @@ jobs:
         deploymentName: bicep-ci-${{ github.run_id }}
         deploymentMode: Complete
 
+    - name: Get SWA Default Hostname
+      id: swahostname
+      uses: azure/CLI@v1
+      with:
+        azcliversion: latest
+        inlineScript: echo DEFAULT_HOSTNAME=$(az staticwebapp show -n ${{ vars.RESOURCE_NAME }} --query 'defaultHostname' | tr -d '"' >> "$GITHUB_OUTPUT" 
+
     - name: Validate Hostname
-      run: echo ${{ steps.deploy.outputs.defaultHostname }}
+      run: echo ${{ steps.swahostname.outputs.DEFAULT_HOSTNAME }}
 
     - name: Set Cloudflare DNS
       env:
         APIKey: ${{ secrets.CLOUDFLARE_APIKEY }}
         ZoneId: ${{ secrets.CLOUDFLARE_ZONEID }}
-        HostName: ${{ steps.deploy.outputs.defaultHostname }}
+        HostName: ${{ steps.swahostname.outputs.DEFAULT_HOSTNAME }}
       run: ./IaC/dnsCreate.ps1
       shell: pwsh
 
