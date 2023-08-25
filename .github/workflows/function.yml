@@ -19,10 +19,8 @@ jobs:
 
     - name: Checkout code
       uses: actions/checkout@v3
-      with:
-        submodules: true
 
-    - name: Deploy Web
+    - name: Deploy Function
       uses: ./.github/workflows/function
       with:
         AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
