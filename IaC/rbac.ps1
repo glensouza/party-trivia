@@ -33,16 +33,18 @@ New-AzRoleAssignment -RoleDefinitionName Owner -ObjectId $objectId
 $subscriptionId = (Get-AzContext).Subscription.Id
 $tenantId = (Get-AzContext).Subscription.TenantId
 
-$subject = 'repo:' + $repoName + ':ref:refs/heads/main'
+$githubOrg = 'glensouza'
+
+$subject = 'repo:' + $githubOrg + '/' + $repoName + ':ref:refs/heads/main'
 New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience 'api://AzureADTokenExchange' -Issuer 'https://token.actions.githubusercontent.com' -Name 'GitHub-Actions-MainBranch' -Subject $subject
 
-$subject = 'repo:' + $repoName + ':environment:CleanupResources'
+$subject = 'repo:' + $githubOrg + '/' + $repoName + ':environment:CleanupResources'
 New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience 'api://AzureADTokenExchange' -Issuer 'https://token.actions.githubusercontent.com' -Name 'GitHub-Actions-CleanupResources' -Subject $subject
 
-$subject = 'repo:' + $repoName + ':environment:IaCDeloy'
+$subject = 'repo:' + $githubOrg + '/' + $repoName + ':environment:IaCDeloy'
 New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience 'api://AzureADTokenExchange' -Issuer 'https://token.actions.githubusercontent.com' -Name 'GitHub-Actions-IaCDeloy' -Subject $subject
 
-$subject = 'repo:' + $repoName + ':environment:ResolveDNS'
+$subject = 'repo:' + $githubOrg + '/' + $repoName + ':environment:ResolveDNS'
 New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience 'api://AzureADTokenExchange' -Issuer 'https://token.actions.githubusercontent.com' -Name 'GitHub-Actions-ResolveDNS' -Subject $subject
 
 Write-Host "AZURE_TENANT_ID: $tenantId"
