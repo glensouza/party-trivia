@@ -26,7 +26,7 @@ jobs:
       env:
         APIKey: ${{ secrets.CLOUDFLARE_APIKEY }}
         ZoneId: ${{ secrets.CLOUDFLARE_ZONEID }}
-      run: ./Bicep/dnsDelete.ps1
+      run: ./IaC/dnsDelete.ps1
       shell: pwsh
 
     - name: Log into Azure
