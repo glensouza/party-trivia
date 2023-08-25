@@ -76,7 +76,7 @@ jobs:
         APIKey: ${{ secrets.CLOUDFLARE_APIKEY }}
         ZoneId: ${{ secrets.CLOUDFLARE_ZONEID }}
         HostName: ${{ steps.deploy.outputs.defaultHostname }}
-      run: ./IaC/dns.ps1
+      run: ./IaC/dnsCreate.ps1
       shell: pwsh
 
   call-deploy-app-workflows:

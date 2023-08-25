@@ -45,12 +45,8 @@ resource signalRService 'Microsoft.SignalRService/SignalR@2020-05-01' = {
         '*'
       ]
     }
-    serverless: {
-      connectionTimeoutInSeconds: 30
-    }
   }
 }
-
 
 resource appServicePlanFunc 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: appServicePlanFuncName
