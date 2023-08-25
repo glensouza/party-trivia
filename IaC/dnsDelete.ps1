@@ -4,7 +4,7 @@ $headers = @{
 }
 
 $records = Invoke-RestMethod `
-  -Uri "https://api.cloudflare.com/client/v4/zones/$Env:ZoneId/dns_records?name=www.triviagame.party" `
+  -Uri "https://api.cloudflare.com/client/v4/zones/$Env:ZoneId/dns_records?name=play.triviagame.party" `
   -Headers $headers `
   -Method 'GET'
 

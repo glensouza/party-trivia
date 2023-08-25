@@ -9,7 +9,7 @@ resource staticWebApp 'Microsoft.Web/staticSites@2020-12-01' existing = {
 }
 
 resource staticWebAppDNS 'Microsoft.Web/staticSites/customDomains@2022-09-01' = {
-  name: 'www.triviagame.party'
+  name: 'play.triviagame.party'
   parent: staticWebApp
   properties: {
     validationMethod: 'cname-delegation'

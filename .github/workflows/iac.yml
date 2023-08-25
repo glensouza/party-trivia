@@ -89,14 +89,14 @@ jobs:
       run: ./IaC/dnsCreate.ps1
       shell: pwsh
 
-  call-deploy-app-workflows:
-    runs-on: ubuntu-latest
-    environment: AppDeploy
-    needs: provision-azure-resources
-    steps:
+  # call-deploy-app-workflows:
+  #   runs-on: ubuntu-latest
+  #   environment: AppDeploy
+  #   needs: provision-azure-resources
+  #   steps:
 
-    - name: Checkout code
-      uses: actions/checkout@main
+  #   - name: Checkout code
+  #     uses: actions/checkout@main
 
     - name: Deploy Functions
       uses: ./.github/workflows/function.yml
