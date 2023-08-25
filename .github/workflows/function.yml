@@ -13,4 +13,14 @@ on:
     
 jobs:
   build-and-deploy:
-    uses: ./.github/workflows/functionBuildAndDeploy.yml
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+
+    - name: Deploy Web
+      uses: ./.github/workflows/functionBuildAndDeploy.yml
