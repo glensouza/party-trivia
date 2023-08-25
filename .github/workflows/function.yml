@@ -10,15 +10,7 @@ on:
       - "PartyTriviaAPI/**"
       - "PartyTriviaShared/**"
   workflow_dispatch:
-
+    
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: 'Checkout GitHub Action'
-      uses: actions/checkout@v3
-
-    - name: Deploy Functions
-      uses: ./.github/workflows/function
-      with:
-        secrets: inherit
+    uses: ./.github/workflows/functionBuildAndDeploy.yml
