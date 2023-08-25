@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Models\PartyTriviaShared.csproj" />
+    <ProjectReference Include="..\PartyTriviaShared\PartyTriviaShared.csproj" />
   </ItemGroup>
 
 </Project>

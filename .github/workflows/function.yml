@@ -6,8 +6,8 @@ on:
       - "main" 
     paths:
       - ".github/workflows/function.yml"
-      - "SWAAPI/**"
-      - "Models/**"
+      - "PartyTriviaAPI/**"
+      - "PartyTriviaShared/**"
   workflow_dispatch:
   workflow_call:
     secrets:

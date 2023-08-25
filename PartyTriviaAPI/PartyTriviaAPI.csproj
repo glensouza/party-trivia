@@ -7,7 +7,7 @@
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Models\PartyTriviaShared.csproj" />
+    <ProjectReference Include="..\PartyTriviaShared\PartyTriviaShared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

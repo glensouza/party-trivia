@@ -95,6 +95,9 @@ jobs:
     needs: provision-azure-resources
     steps:
 
+    - name: Checkout code
+      uses: actions/checkout@main
+
     - name: Deploy Functions
       uses: ./.github/workflows/function.yml
       with:

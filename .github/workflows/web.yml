@@ -6,8 +6,8 @@ on:
       - main
     paths:
       - ".github/workflows/web.yml"
-      - "SWAClient/**"
-      - "Models/**"
+      - "PartyTriviaWeb/**"
+      - "PartyTriviaShared/**"
   workflow_dispatch:
   workflow_call:
     secrets:

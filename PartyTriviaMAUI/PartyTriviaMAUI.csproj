@@ -73,7 +73,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Models\PartyTriviaShared.csproj" />
+      <ProjectReference Include="..\PartyTriviaShared\PartyTriviaShared.csproj" />
       <ProjectReference Include="..\PartyTriviaComponents\PartyTriviaComponents.csproj" />
     </ItemGroup>
 
