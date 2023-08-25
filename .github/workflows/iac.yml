@@ -20,7 +20,7 @@ jobs:
     steps:
 
     - name: Checkout code
-      uses: actions/checkout@main
+      uses: actions/checkout@v3
 
     - name: Remove www Cloudflare DNS
       env:
@@ -50,7 +50,7 @@ jobs:
     steps:
 
     - name: Checkout code
-      uses: actions/checkout@main
+      uses: actions/checkout@v3
 
     - name: Log into Azure
       uses: azure/login@v1
@@ -89,34 +89,33 @@ jobs:
       run: ./IaC/dnsCreate.ps1
       shell: pwsh
 
-  # call-deploy-app-workflows:
-  #   runs-on: ubuntu-latest
-  #   environment: AppDeploy
-  #   needs: provision-azure-resources
-  #   steps:
+  call-deploy-app-workflows:
+    runs-on: ubuntu-latest
+    environment: AppDeploy
+    needs: provision-azure-resources
+    steps:
 
-  #   - name: Checkout code
-  #     uses: actions/checkout@main
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Deploy Functions
-      uses: ./.github/workflows/function.yml
+      uses: ./.github/workflows/function
       with:
         secrets: inherit
 
     - name: Deploy Web App
-      uses: ./.github/workflows/web.yml
+      uses: ./.github/workflows/web
       with:
         secrets: inherit
 
   resolve-dns:
     runs-on: ubuntu-latest
     environment: ResolveDNS
-    # needs: call-deploy-app-workflows
-    needs: provision-azure-resources
+    needs: call-deploy-app-workflows
     steps:
       
     - name: Checkout code
-      uses: actions/checkout@main
+      uses: actions/checkout@v3
 
     - name: Log into Azure
       uses: azure/login@v1

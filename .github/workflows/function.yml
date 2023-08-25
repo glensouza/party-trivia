@@ -6,56 +6,19 @@ on:
       - "main" 
     paths:
       - ".github/workflows/function.yml"
+      - ".github/workflows/function/action.yml"
       - "PartyTriviaAPI/**"
       - "PartyTriviaShared/**"
   workflow_dispatch:
-  workflow_call:
-    secrets:
-      AZURE_TENANT_ID:
-        required: true
-      AZURE_SUBSCRIPTION_ID:
-        required: true
-      AZURE_CLIENT_ID:
-        required: true
-
-permissions:
-  id-token: write
-  contents: read
-
-env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: './SWAAPI'
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      # Log into Azure
-      - name: Login via Azure
-        uses: azure/login@v1
-        with:
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v3
 
-      - name: 'Checkout GitHub Action'
-        uses: actions/checkout@v2
-
-      - name: Setup DotNet 7 Environment
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '7.x'
-
-      # - name: 'Resolve Project Dependencies Using Dotnet'
-      #   shell: bash
-      #   run: |
-      #     pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-      #     dotnet build --configuration Release --output ./output
-      #     popd
-
-      # - name: 'Deploy Function App'
-      #   uses: Azure/functions-action@v1
-      #   id: fa
-      #   with:
-      #     app-name: '${{ vars.RESOURCE_NAME }}func'
-      #     slot-name: 'Production'
-      #     package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+    - name: Deploy Functions
+      uses: ./.github/workflows/function
+      with:
+        secrets: inherit

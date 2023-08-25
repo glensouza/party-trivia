@@ -151,7 +151,7 @@ To create a workflow, take the following steps:
         steps:
     
           # Checkout code
-        - uses: actions/checkout@main
+        - uses: actions/checkout@v3
     
           # Log into Azure
         - uses: azure/login@v1
