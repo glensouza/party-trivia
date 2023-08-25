@@ -1,15 +1,13 @@
 name: Static Web Apps Build and Deploy
 
-on:
-  workflow_dispatch:
-  workflow_call:
-    secrets:
-      AZURE_TENANT_ID:
-        required: true
-      AZURE_SUBSCRIPTION_ID:
-        required: true
-      AZURE_CLIENT_ID:
-        required: true
+description: "Build and deploy Function App"
+inputs:
+  AZURE_TENANT_ID:
+    required: true
+  AZURE_SUBSCRIPTION_ID:
+    required: true
+  AZURE_CLIENT_ID:
+    required: true
 
 permissions:
   id-token: write
