@@ -4,11 +4,8 @@ targetScope = 'resourceGroup'
 param location string = resourceGroup().location
 
 @description('Base Name of Resources')
-param commonResourceName string = 'GSTransDemo'
+param commonResourceName string = 'PartyTrivia'
 var resourceName = toLower(commonResourceName)
-
-var speechServiceName = '${resourceName}speech'
-var speechServiceSKU = 'F0'
 
 var logAnalyticsName = '${resourceName}log'
 var logAnalyticsSKU = 'PerGB2018'
@@ -25,25 +22,32 @@ var appServicePlanFuncTier = 'Dynamic'
 var functionAppName = '${resourceName}func'
 
 var swaSku = 'Standard'
-var webAppName = '${resourceName}swa'
+var webAppName = resourceName
 
-resource speechService 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
-  name: speechServiceName
+resource signalRService 'Microsoft.SignalRService/SignalR@2020-05-01' = {
+  name: '${commonResourceName}signalr'
   location: location
   sku: {
-    name: speechServiceSKU
-  }
-  kind: 'SpeechServices'
-  identity: {
-    type: 'None'
+    name: 'Free_F1'
+    capacity: 1
   }
   properties: {
-    networkAcls: {
-      defaultAction: 'Allow'
-      virtualNetworkRules: []
-      ipRules: []
+    features: [
+      {
+        flag: 'ServiceMode'
+        value: 'Serverless'
+        properties: {
+        }
+      }
+    ]
+    cors: {
+      allowedOrigins: [
+        '*'
+      ]
     }
-    publicNetworkAccess: 'Enabled'
+    serverless: {
+      connectionTimeoutInSeconds: 30
+    }
   }
 }
 
@@ -105,56 +109,6 @@ resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2021-06-01' = {
     publicNetworkAccessForQuery: 'Enabled'
   }
 
-  resource logAnalyticsDataExport 'dataexports@2020-08-01' = {
-    name: 'DataExport'
-    properties: {
-      dataExportId: '8493dffe-42b2-438e-90b9-e351a4960e18'
-      destination: {
-        resourceId: storageAccount.id
-        metaData: {}
-      }
-      tableNames: [
-        'Alert'
-        'AppCenterError'
-        'ComputerGroup'
-        'InsightsMetrics'
-        'Operation'
-        'Usage'
-      ]
-      enable: true
-      createdDate: '2023-05-05T15:57:53.6038946Z'
-      lastModifiedDate: '2023-05-05T15:57:53.6038946Z'
-    }
-  }
-
-  resource logAnalyticsAlerts 'linkedstorageaccounts@2020-08-01' = {
-    name: 'Alerts'
-    properties: {
-      storageAccountIds: [
-        storageAccount.id
-      ]
-    }
-  }
-
-  resource logAnalyticsCustomLogs 'linkedstorageaccounts@2020-08-01' = {
-    name: 'CustomLogs'
-    properties: {
-      storageAccountIds: [
-        storageAccount.id
-      ]
-    }
-  }
-
-  resource logAnalyticsQuery 'linkedstorageaccounts@2020-08-01' = {
-    name: 'Query'
-    properties: {
-      storageAccountIds: [
-        storageAccount.id
-      ]
-    }
-  }
-}
-
 resource applicationInsights 'Microsoft.Insights/components@2020-02-02' = {
   name: applicationInsightsName
   location: location
@@ -193,7 +147,6 @@ resource functionApp 'Microsoft.Web/sites@2022-09-01' = {
       functionAppScaleLimit: 200
       minimumElasticInstanceCount: 0
     }
-    use32BitWorkerProcess: false
     httpsOnly: true
   }
 
@@ -238,29 +191,4 @@ resource staticWebApp 'Microsoft.Web/staticSites@2020-12-01' = {
   }
 }
 
-resource signalRService 'Microsoft.SignalRService/SignalR@2020-05-01' = {
-  name: '${commonResourceName}signalr'
-  location: location
-  sku: {
-    name: 'Free_F1'
-    capacity: 1
-  }
-  properties: {
-    features: [
-      {
-        flag: 'ServiceMode'
-        value: 'Serverless'
-        properties: {
-        }
-      }
-    ]
-    cors: {
-      allowedOrigins: [
-        '*'
-      ]
-    }
-    serverless: {
-      connectionTimeoutInSeconds: 30
-    }
-  }
-}
+output defaultHostname string = staticWebApp.properties.defaultHostname
