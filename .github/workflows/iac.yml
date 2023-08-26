@@ -98,19 +98,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Deploy Function
+    - name: Build and Deploy Function App
       uses: ./.github/workflows/function
       with:
         AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
         AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        RESOURCE_NAME: ${{ vars.RESOURCE_NAME }}
 
-    - name: Deploy Web App
+    - name: Build and Deploy Web App
       uses: ./.github/workflows/web
       with:
         AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
         AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        RESOURCE_NAME: ${{ vars.RESOURCE_NAME }}
 
   resolve-dns:
     runs-on: ubuntu-latest
