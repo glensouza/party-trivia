@@ -51,4 +51,4 @@ runs:
     uses: azure/CLI@v1
     with:
       azcliversion: latest
-      inlineScript: az staticwebapp secrets reset-api-key --name ${{ inputs.RESOURCE_NAME }}swa --resource-group ${{ inputs.RESOURCE_NAME }} --no-wait
+      inlineScript: az staticwebapp secrets reset-api-key --name ${{ inputs.RESOURCE_NAME }} --resource-group ${{ inputs.RESOURCE_NAME }} --no-wait
