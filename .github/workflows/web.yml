@@ -11,6 +11,10 @@ on:
       - "PartyTriviaShared/**"
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  contents: read
+  
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
