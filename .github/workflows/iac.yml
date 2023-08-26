@@ -43,7 +43,7 @@ jobs:
         azcliversion: 2.48.1
         inlineScript: az group delete --name ${{ vars.RESOURCE_NAME }} --yes
   
-  provision-azure-resources:
+  provision-resources:
     runs-on: ubuntu-latest
     environment: IaCDeloy
     needs: cleanup-resources
@@ -89,7 +89,7 @@ jobs:
       run: ./IaC/dnsCreate.ps1
       shell: pwsh
 
-  call-deploy-app-workflows:
+  build-and-deploy-apps:
     runs-on: ubuntu-latest
     environment: AppDeploy
     needs: provision-azure-resources
