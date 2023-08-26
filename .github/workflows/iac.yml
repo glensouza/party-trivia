@@ -136,6 +136,7 @@ jobs:
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         scope: resourcegroup
+        resourceGroupName: ${{ vars.RESOURCE_NAME }}
         region: centralus
         template: ./IaC/dns.bicep
         parameters: commonResourceName=${{ vars.RESOURCE_NAME }}
