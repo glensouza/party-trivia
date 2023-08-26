@@ -1,5 +1,3 @@
-targetScope = 'resourceGroup'
-
 @description('Base Name of Resources')
 param commonResourceName string = 'PartyTrivia'
 var webAppName = toLower(commonResourceName)
