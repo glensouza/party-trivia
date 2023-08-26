@@ -43,7 +43,7 @@ runs:
       azure_static_web_apps_api_token: ${{ steps.swatoken.outputs.SWA_TOKEN }}
       repo_token: ${{ inputs.GITHUB_TOKEN }}
       action: "upload"
-      app_location: "SWAClient"
+      app_location: "PartyTriviaWeb"
       api_location: ""
       output_location: "wwwroot"
 
