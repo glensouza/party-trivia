@@ -117,7 +117,7 @@ jobs:
   resolve-dns:
     runs-on: ubuntu-latest
     environment: ResolveDNS
-    needs: call-deploy-app-workflows
+    needs: build-and-deploy-apps
     steps:
       
     - name: Checkout code
