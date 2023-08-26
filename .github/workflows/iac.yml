@@ -135,7 +135,7 @@ jobs:
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        scope: resourceGroup
+        scope: resourcegroup
         region: centralus
         template: ./IaC/dns.bicep
         parameters: commonResourceName=${{ vars.RESOURCE_NAME }}
