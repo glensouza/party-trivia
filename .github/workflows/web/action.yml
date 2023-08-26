@@ -34,19 +34,19 @@ runs:
       azcliversion: latest
       inlineScript: echo SWA_TOKEN=$(az staticwebapp secrets list --name ${{ inputs.RESOURCE_NAME }} --query 'properties.apiKey') | tr -d '"' >> "$GITHUB_OUTPUT"
 
-  # - name: Build And Deploy
-  #   id: builddeploy
-  #   uses: Azure/static-web-apps-deploy@v1
-  #   with:
-  #     azure_static_web_apps_api_token: ${{ steps.swatoken.outputs.SWA_TOKEN }}
-  #     repo_token: ${{ secrets.GITHUB_TOKEN }}
-  #     action: "upload"
-  #     app_location: "SWAClient"
-  #     api_location: ""
-  #     output_location: "wwwroot"
+  - name: Build And Deploy
+    id: builddeploy
+    uses: Azure/static-web-apps-deploy@v1
+    with:
+      azure_static_web_apps_api_token: ${{ steps.swatoken.outputs.SWA_TOKEN }}
+      repo_token: ${{ secrets.GITHUB_TOKEN }}
+      action: "upload"
+      app_location: "SWAClient"
+      api_location: ""
+      output_location: "wwwroot"
 
-  # - name: Reset SWA Token
-  #   uses: azure/CLI@v1
-  #   with:
-  #     azcliversion: latest
-  #     inlineScript: az staticwebapp secrets reset-api-key --name ${{ vars.RESOURCE_NAME }}swa --resource-group ${{ vars.RESOURCE_NAME }} --no-wait
+  - name: Reset SWA Token
+    uses: azure/CLI@v1
+    with:
+      azcliversion: latest
+      inlineScript: az staticwebapp secrets reset-api-key --name ${{ vars.RESOURCE_NAME }}swa --resource-group ${{ vars.RESOURCE_NAME }} --no-wait
