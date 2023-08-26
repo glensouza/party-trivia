@@ -11,6 +11,8 @@ inputs:
     required: true
   RESOURCE_NAME:
     required: true
+  GITHUB_TOKEN:
+    required: true
 
 runs:
   using: "composite"
@@ -39,7 +41,7 @@ runs:
     uses: Azure/static-web-apps-deploy@v1
     with:
       azure_static_web_apps_api_token: ${{ steps.swatoken.outputs.SWA_TOKEN }}
-      repo_token: ${{ secrets.GITHUB_TOKEN }}
+      repo_token: ${{ inputs.GITHUB_TOKEN }}
       action: "upload"
       app_location: "SWAClient"
       api_location: ""
@@ -49,4 +51,4 @@ runs:
     uses: azure/CLI@v1
     with:
       azcliversion: latest
-      inlineScript: az staticwebapp secrets reset-api-key --name ${{ vars.RESOURCE_NAME }}swa --resource-group ${{ vars.RESOURCE_NAME }} --no-wait
+      inlineScript: az staticwebapp secrets reset-api-key --name ${{ inputs.RESOURCE_NAME }}swa --resource-group ${{ inputs.RESOURCE_NAME }} --no-wait
