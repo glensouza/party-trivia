@@ -47,6 +47,9 @@ New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience 'api:
 $subject = 'repo:' + $githubOrg + '/' + $repoName + ':environment:ResolveDNS'
 New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience 'api://AzureADTokenExchange' -Issuer 'https://token.actions.githubusercontent.com' -Name 'GitHub-Actions-ResolveDNS' -Subject $subject
 
+$subject = 'repo:' + $githubOrg + '/' + $repoName + ':environment:AppDeploy'
+New-AzADAppFederatedCredential -ApplicationObjectId $appObjectId -Audience 'api://AzureADTokenExchange' -Issuer 'https://token.actions.githubusercontent.com' -Name 'GitHub-Actions-AppDeploy' -Subject $subject
+
 Write-Host "AZURE_TENANT_ID: $tenantId"
 Write-Host "AZURE_SUBSCRIPTION_ID: $subscriptionId"
 Write-Host "AZURE_CLIENT_ID: $clientId"
