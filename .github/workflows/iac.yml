@@ -116,6 +116,7 @@ jobs:
 
   resolve-dns:
     runs-on: ubuntu-latest
+    url: 'https://play.triviagame.party'
     environment: ResolveDNS
     needs: build-and-deploy-apps
     steps:
@@ -130,11 +131,11 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
 
-    - name: Provision Resources
+    - name: Add custom domain to web app
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        scope: subscription
+        scope: resourceGroup
         region: centralus
         template: ./IaC/dns.bicep
         parameters: commonResourceName=${{ vars.RESOURCE_NAME }}
