@@ -92,7 +92,7 @@ jobs:
   build-and-deploy-apps:
     runs-on: ubuntu-latest
     environment: AppDeploy
-    needs: provision-azure-resources
+    needs: provision-resources
     steps:
 
     - name: Checkout code
