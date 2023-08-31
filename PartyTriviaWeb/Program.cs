@@ -1,7 +1,7 @@
-﻿using PartyTriviaWeb.Data;
-using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using PartyTriviaWeb;
+using PartyTriviaComponents.Data;
 using Syncfusion.Blazor;
 
 WebAssemblyHostBuilder? builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -13,7 +13,7 @@ Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(licenseKey);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddSyncfusionBlazor();
-            builder.Services.AddSingleton<PdfService>();
+builder.Services.AddSingleton<PdfService>();
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
