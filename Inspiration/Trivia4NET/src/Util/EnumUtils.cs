@@ -1,4 +1,6 @@
-﻿namespace Trivia4NET.Util
+﻿using System.Reflection;
+
+namespace Trivia4NET.Util
 {
     using System;
     using System.Runtime.Serialization;
@@ -23,9 +25,9 @@
         /// </returns>
         public static string GetSerializedValue(this Enum value)
         {
-            var type = value.GetType();
-            var info = type.GetField(value.ToString());
-            var attributes = (EnumMemberAttribute[])info.GetCustomAttributes(typeof(EnumMemberAttribute), false);
+            Type type = value.GetType();
+            FieldInfo info = type.GetField(value.ToString());
+            EnumMemberAttribute[] attributes = (EnumMemberAttribute[])info.GetCustomAttributes(typeof(EnumMemberAttribute), false);
 
             return attributes.Length > 0 ? attributes[0].Value : value.ToString();
         }

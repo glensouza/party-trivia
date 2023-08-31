@@ -1,4 +1,6 @@
-﻿namespace Trivia4NET
+﻿using System.Collections.Specialized;
+
+namespace Trivia4NET
 {
     using System;
     using System.Linq;
@@ -111,7 +113,7 @@
             }
 
             // parse an empty query string and add the amount parameter to it
-            var parameters = HttpUtility.ParseQueryString(string.Empty);
+            NameValueCollection parameters = HttpUtility.ParseQueryString(string.Empty);
             parameters.Add("amount", amount.ToString());
 
             // add the token if specified
@@ -139,7 +141,7 @@
             }
 
             // make request
-            var response = await RequestAsync<QuestionsResponse>("api.php?" + parameters, cancellationToken);
+            QuestionsResponse response = await RequestAsync<QuestionsResponse>("api.php?" + parameters, cancellationToken);
 
             // check if the token should be reseted if needed
             if (_autoResetToken && !string.IsNullOrWhiteSpace(token) && response.ResponseCode == ResponseCode.TokenEmpty)
@@ -266,10 +268,10 @@
             where TResponse : TriviaResponse, new()
         {
             // send the HTTP GET request
-            using (var response = await _httpClient.GetAsync(endpoint, cancellationToken))
+            using (HttpResponseMessage response = await _httpClient.GetAsync(endpoint, cancellationToken))
             {
-                var content = await response.Content.ReadAsStringAsync();
-                var payload = JsonConvert.DeserializeObject<TResponse>(content);
+                string content = await response.Content.ReadAsStringAsync();
+                TResponse payload = JsonConvert.DeserializeObject<TResponse>(content);
 
                 if (!response.IsSuccessStatusCode)
                 {
