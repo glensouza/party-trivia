@@ -1,0 +1,36 @@
+﻿@using PartyTriviaShared.Services
+@using PartyTriviaShared.Models
+@inject OpenTriviaDbService OpenTriviaDbService
+
+<select
+    className='custom-select'
+    aria-label='Choose a trivia category'
+    @bind="BindSelectedCategory">
+    <option value="" selected>Choose a category...</option>
+    @foreach (TriviaCategory triviaCategory in TriviaCategories.OrderBy(s => s.Name))
+    {
+        <option value="@(triviaCategory.Id)" key="@(triviaCategory.Id)">@(triviaCategory.Name)</option>
+    }
+</select>
+
+@code {
+    [Parameter]
+    public EventCallback<string> CategorySelected { get; set; }
+
+    private TriviaCategory[] TriviaCategories { get; set; } = Array.Empty<TriviaCategory>();
+    private string SelectedCategory { get; set; } = string.Empty;
+    private string BindSelectedCategory
+    {
+        get => this.SelectedCategory;
+        set
+        {
+            this.SelectedCategory = value;
+            CategorySelected.InvokeAsync(this.SelectedCategory);
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+       this.TriviaCategories = await OpenTriviaDbService.GetCategoriesAsync() ?? Array.Empty<TriviaCategory>() ;
+    }
+}

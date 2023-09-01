@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using GitHubPages;
 using PartyTriviaComponents.Data;
+using PartyTriviaShared.Services;
 using Syncfusion.Blazor;
 
 WebAssemblyHostBuilder? builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -14,6 +15,7 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddSyncfusionBlazor();
 
+builder.Services.AddSingleton<OpenTriviaDbService>();
 builder.Services.AddSingleton<PdfService>();
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
