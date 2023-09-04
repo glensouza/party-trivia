@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using GitHubPages;
 using PartyTriviaComponents.Data;
 using PartyTriviaShared.Services;
+using Blazored.LocalStorage;
 using Syncfusion.Blazor;
 
 WebAssemblyHostBuilder? builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -13,6 +14,7 @@ Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(licenseKey);
 
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
+builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddSyncfusionBlazor();
 
 builder.Services.AddSingleton<OpenTriviaDbService>();

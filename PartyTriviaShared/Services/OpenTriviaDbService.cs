@@ -1,10 +1,9 @@
-﻿using Newtonsoft.Json;
-using PartyTriviaShared.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using PartyTriviaShared.Models;
+using Newtonsoft.Json;
 
 namespace PartyTriviaShared.Services
 {
@@ -32,13 +31,13 @@ namespace PartyTriviaShared.Services
 
         public async Task<Question[]> GetQuestionsAsync(int numberOfQuestions, int? category = null, OpenTriviaDbEnums.QuestionType? questionType = null, OpenTriviaDbEnums.Difficulty? difficulty = null)
         {
-            if (string.IsNullOrEmpty(SessionToken))
+            if (string.IsNullOrEmpty(this.SessionToken))
             {
-                await CreateSessionTokenAsync();
+                await this.CreateSessionTokenAsync();
             }
 
             HttpClient client = new HttpClient();
-            string query = GetQuestionQueryString(numberOfQuestions, category, questionType, difficulty);
+            string query = this.GetQuestionQueryString(numberOfQuestions, category, questionType, difficulty);
             string url = $"{QuestionBaseUrl}?{query}";
             HttpResponseMessage res = await client.GetAsync(url);
 
@@ -49,15 +48,20 @@ namespace PartyTriviaShared.Services
 
         public async Task ResetSessionTokenAsync()
         {
-            if (string.IsNullOrEmpty(SessionToken))
+            if (string.IsNullOrEmpty(this.SessionToken))
             {
-                await CreateSessionTokenAsync();
+                await this.CreateSessionTokenAsync();
                 return;
             }
 
             HttpClient client = new HttpClient();
-            string url = $"{TokenBaseUrl}?command=reset&token={SessionToken}";
+            string url = $"{TokenBaseUrl}?command=reset&token={this.SessionToken}";
             HttpResponseMessage res = await client.GetAsync(url);
+        }
+
+        public void SetSessionToken(string token)
+        {
+            this.SessionToken = token;
         }
 
         public async Task CreateSessionTokenAsync()
@@ -69,13 +73,12 @@ namespace PartyTriviaShared.Services
             string content = await res.Content.ReadAsStringAsync();
             TokenResponse apiResponse = JsonConvert.DeserializeObject<TokenResponse>(content);
 
-            SessionToken = apiResponse.Token;
+            this.SessionToken = apiResponse.Token;
         }
 
         private string GetQuestionQueryString(int numberOfQuestions, int? category, OpenTriviaDbEnums.QuestionType? questionType, OpenTriviaDbEnums.Difficulty? difficulty)
         {
-            List<string> query = new List<string>();
-            query.Add($"amount={numberOfQuestions}");
+            List<string> query = new List<string> { $"amount={numberOfQuestions}" };
 
             if (category.HasValue)
             {
@@ -90,6 +93,10 @@ namespace PartyTriviaShared.Services
                 case OpenTriviaDbEnums.QuestionType.TrueOrFalse:
                     query.Add("type=boolean");
                     break;
+                case null:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(questionType), questionType, null);
             }
 
             switch (difficulty)
@@ -103,11 +110,15 @@ namespace PartyTriviaShared.Services
                 case OpenTriviaDbEnums.Difficulty.Hard:
                     query.Add("difficulty=hard");
                     break;
+                case null:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(difficulty), difficulty, null);
             }
 
-            if (!string.IsNullOrEmpty(SessionToken))
+            if (!string.IsNullOrEmpty(this.SessionToken))
             {
-                query.Add($"token={SessionToken}");
+                query.Add($"token={this.SessionToken}");
             }
 
             string queryString = string.Join("&", query);

@@ -1,19 +1,20 @@
 ﻿@using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Cards
+
 @inject NavigationManager NavigationManager
 
 @page "/"
 
 <PageTitle>Trivia</PageTitle>
 
-<section id='start' className='text-white text-center mb-5 container'>
+<section id="start" className="text-white text-center mb-5 container">
     <SfCard ID="BasicCard">
         <CardHeader Title="Trivia Game" />
         <CardContent Content="Do you a want to test your trivia knowledge? Put it to the test and see how much you really know!" />
         <CardFooter>
             <CardFooterContent>
                 <Categories CategorySelected="HandleCategorySelected"></Categories>
-                <SfButton CssClass="e-btn e-outline e-primary" Disabled="@(string.IsNullOrEmpty(category))" @onclick="StartGame">Start Game</SfButton>
+                <SfButton CssClass="e-btn e-outline e-primary" Disabled="@(string.IsNullOrEmpty(categoryId))" @onclick="StartGame">Start Game</SfButton>
             </CardFooterContent>
         </CardFooter>
     </SfCard>
@@ -28,12 +29,12 @@
 
 @code
 {
-    private string category = string.Empty;
+    private string categoryId = string.Empty;
 
     private void HandleCategorySelected(string selectedCategory)
     {
-        this.category = selectedCategory;
+        this.categoryId = selectedCategory;
     }
 
-    private void StartGame() => NavigationManager.NavigateTo($"/game/{category}");
+    private void StartGame() => NavigationManager.NavigateTo($"/game/{categoryId}");
 }

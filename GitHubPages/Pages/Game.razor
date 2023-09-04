@@ -1,0 +1,100 @@
+﻿@using Syncfusion.Blazor.Spinner
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Cards
+@using PartyTriviaShared.Services
+@using PartyTriviaShared.Models
+@using Newtonsoft.Json
+
+@inject OpenTriviaDbService OpenTriviaDbService
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+@page "/game/{CategoryId}"
+
+<section id="start" className="text-white text-center mb-5 container">
+    <SfCard ID="BasicCard">
+        <CardHeader Title=@category />
+        <CardContent Content=@stats />
+        <CardFooter>
+            <CardFooterContent>
+                <SfSpinner Size="40" Type="SpinnerType.Material" @bind-Visible="loading" />
+                @if (!loading)
+                {
+                    <p>@((MarkupString)question.QuestionText)</p>
+                    <SfRadioButton Name="question" Value="@question.CorrectAnswer" @bind-Checked="checkedValue"></SfRadioButton>
+                    @((MarkupString)question.CorrectAnswer)<br />
+                    @foreach (string? answer in question.IncorrectAnswers)
+                    {
+                        <SfRadioButton Name="question" Value="@answer" @bind-Checked="checkedValue"></SfRadioButton>
+                        @((MarkupString)answer)<br />
+                    }
+                }
+                <SfButton CssClass="e-btn e-outline e-primary" Disabled="@(string.IsNullOrEmpty(checkedValue))" @onclick="NextQuestion">Submit Answer</SfButton>
+            </CardFooterContent>
+        </CardFooter>
+    </SfCard>
+</section>
+
+<style>
+    .e-card-header-title {
+        font-size: 40px !important;
+        font-style: italic;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public string CategoryId { get; set; } = string.Empty;
+    private string category = string.Empty;
+    private string stats = "Question 1/10 - Your score: 0";
+
+    private Question[] questions = Array.Empty<Question>();
+    private bool loading = true;
+    private string checkedValue = string.Empty;
+    private List<TriviaCategory> TriviaCategories { get; set; } = new();
+    private Question question = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // check session id
+        string sessionId = await LocalStorage.GetItemAsStringAsync("sessionId");
+        if (string.IsNullOrEmpty(sessionId))
+        {
+            await this.OpenTriviaDbService.CreateSessionTokenAsync();
+            sessionId = this.OpenTriviaDbService.SessionToken;
+            await LocalStorage.SetItemAsStringAsync("sessionId", sessionId);
+        }
+        else
+        {
+            this.OpenTriviaDbService.SetSessionToken(sessionId);
+        }
+
+        string cachedTriviaCategories = await LocalStorage.GetItemAsStringAsync("triviaCategories");
+        if (!string.IsNullOrEmpty(cachedTriviaCategories))
+        {
+            TriviaCategories = JsonConvert.DeserializeObject<List<TriviaCategory>>(cachedTriviaCategories) ?? new List<TriviaCategory>();
+            category = TriviaCategories.FirstOrDefault(x => x.Id == CategoryId)?.Name ?? string.Empty;
+        }
+
+        // get 10 questions
+        this.questions = await this.OpenTriviaDbService.GetQuestionsAsync(10, Convert.ToInt16(CategoryId), OpenTriviaDbEnums.QuestionType.MultiChoice, OpenTriviaDbEnums.Difficulty.Easy);
+        this.question = this.questions.FirstOrDefault() ?? new Question();
+    
+        // spinner
+        this.loading = false;
+    }
+
+    private void NextQuestion()
+    {
+        // check answer
+        if (this.question.CorrectAnswer == this.checkedValue)
+        {
+            // update score
+            this.stats = $"Question 1/10 - Your score: {Convert.ToInt16(this.stats.Split(":")[1]) + 1}";
+        }
+
+        // get next question
+        this.question = this.questions[1];
+        this.questions = this.questions.Skip(1).ToArray();
+        this.checkedValue = string.Empty;
+    }
+}
