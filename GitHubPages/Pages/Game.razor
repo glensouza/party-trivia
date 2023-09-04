@@ -13,21 +13,26 @@
 <section id="start" className="text-white text-center mb-5 container">
     <SfCard ID="BasicCard">
         <CardHeader Title=@category />
-        <CardContent Content=@stats />
+        <CardContent>
+            <SfSpinner Size="40" Type="SpinnerType.Material" @bind-Visible="loading" />
+            @if (!loading)
+            {
+                <h4>@stats</h4>
+            }
+            @if (!loading && question is not null)
+            {
+                <p>@((MarkupString)question.QuestionText)</p>
+                <SfRadioButton Name="question" Value="@question.CorrectAnswer" @bind-Checked="checkedValue"></SfRadioButton>
+                @((MarkupString)question.CorrectAnswer)<br />
+                @foreach (string? answer in question.IncorrectAnswers)
+                {
+                    <SfRadioButton Name="question" Value="@answer" @bind-Checked="checkedValue"></SfRadioButton>
+                    @((MarkupString)answer)<br />
+                }
+            }
+        </CardContent>
         <CardFooter>
             <CardFooterContent>
-                <SfSpinner Size="40" Type="SpinnerType.Material" @bind-Visible="loading" />
-                @if (!loading)
-                {
-                    <p>@((MarkupString)question.QuestionText)</p>
-                    <SfRadioButton Name="question" Value="@question.CorrectAnswer" @bind-Checked="checkedValue"></SfRadioButton>
-                    @((MarkupString)question.CorrectAnswer)<br />
-                    @foreach (string? answer in question.IncorrectAnswers)
-                    {
-                        <SfRadioButton Name="question" Value="@answer" @bind-Checked="checkedValue"></SfRadioButton>
-                        @((MarkupString)answer)<br />
-                    }
-                }
                 <SfButton CssClass="e-btn e-outline e-primary" Disabled="@(string.IsNullOrEmpty(checkedValue))" @onclick="NextQuestion">Submit Answer</SfButton>
             </CardFooterContent>
         </CardFooter>
@@ -46,12 +51,13 @@
     public string CategoryId { get; set; } = string.Empty;
     private string category = string.Empty;
     private string stats = "Question 1/10 - Your score: 0";
+    private int score = 0;
 
     private Question[] questions = Array.Empty<Question>();
     private bool loading = true;
     private string checkedValue = string.Empty;
     private List<TriviaCategory> TriviaCategories { get; set; } = new();
-    private Question question = new();
+    private Question? question = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -77,6 +83,13 @@
 
         // get 10 questions
         this.questions = await this.OpenTriviaDbService.GetQuestionsAsync(10, Convert.ToInt16(CategoryId), OpenTriviaDbEnums.QuestionType.MultiChoice, OpenTriviaDbEnums.Difficulty.Easy);
+        /*
+         * TODO:
+         * - read unanswered questions from localstorage
+         * - get new questions if not enough unanswered questions (10)
+         * - store in localstorage unanswered questions
+         * - randomize answer placement
+         */
         this.question = this.questions.FirstOrDefault() ?? new Question();
     
         // spinner
@@ -85,16 +98,36 @@
 
     private void NextQuestion()
     {
+        /*
+         * TODO:
+         * - store in localstorage unanswered questions
+         * - randomize answer placement
+         * - store all-time record for category
+         * - at end of game hide submit button and add "Play again" button for this category or pick new category
+         */
+
         // check answer
         if (this.question.CorrectAnswer == this.checkedValue)
         {
             // update score
-            this.stats = $"Question 1/10 - Your score: {Convert.ToInt16(this.stats.Split(":")[1]) + 1}";
+            this.score++;
         }
 
         // get next question
-        this.question = this.questions[1];
-        this.questions = this.questions.Skip(1).ToArray();
+        if (this.questions.Length == 1)
+        {
+            // end game
+            // NavigationManager.NavigateTo($"/end/{CategoryId}/{score}");
+            this.question = null;
+            this.stats = $"Your score: {this.score}/10";
+        }
+        else
+        {
+            this.question = this.questions[1];
+            this.questions = this.questions.Skip(1).ToArray();
+            this.stats = $"Question {10 - this.questions.Length + 1}/10 - Your score: {this.score}";
+        }
+
         this.checkedValue = string.Empty;
     }
 }
