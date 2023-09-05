@@ -4,7 +4,7 @@
 
 @page "/game/{CategoryId}"
 
-<SfToast ID="toast_default" @ref="ToastObj" Timeout="3000">
+<SfToast ID="toast_default" @ref="toastObj" Timeout="3000">
     <ToastPosition X="@ToastPosition"></ToastPosition>
 </SfToast>
 
@@ -34,7 +34,12 @@
                 }
                 else
                 {
-                    <SfButton CssClass="e-btn e-outline e-primary" @onclick="PlayAgain">Play Again</SfButton>
+                    if (!changeCategory)
+                    {
+                        <SfButton CssClass="e-btn e-outline e-primary" @onclick="PlayAgain">Play Again</SfButton>
+                        <SfButton CssClass="e-btn e-outline e-primary" @onclick="ShowScores">Show Scores</SfButton>
+                    }
+
                     <SfButton CssClass="e-btn e-outline e-primary" @onclick="ChangeCategory">Change Category</SfButton>
                 }
             </CardFooterContent>
@@ -55,10 +60,12 @@
     private string category = string.Empty;
     private string stats = "Question 1/10 - Your score: 0";
     private int score = 0;
+    private int numberOfQuestions = 10;
     private bool gameEnded = false;
+    private bool changeCategory = false;
 
-    SfToast ToastObj;
-    private string ToastPosition = "Right";
+    SfToast? toastObj;
+    private const string ToastPosition = "Right";
 
     private Question[] questions = Array.Empty<Question>();
     private bool loading = true;
@@ -91,13 +98,24 @@
 
         // get 10 questions
         this.questions = await this.OpenTriviaDbService.GetQuestionsAsync(10, Convert.ToInt16(CategoryId), OpenTriviaDbEnums.QuestionType.MultiChoice, OpenTriviaDbEnums.Difficulty.Easy);
+        this.numberOfQuestions = this.questions.Length;
+        if (this.numberOfQuestions == 0)
+        {
+            this.gameEnded = true;
+            this.stats = "No questions found for this category. Please try another category.";
+            this.loading = false;
+            this.changeCategory = true;
+            TriviaCategories.Remove(TriviaCategories.FirstOrDefault(x => x.Id == CategoryId));
+            await LocalStorage.SetItemAsStringAsync("triviaCategories", JsonConvert.SerializeObject(TriviaCategories));
+            return;
+        }
+
+        this.stats = $"Question 1/{this.numberOfQuestions} - Your score: 0";
         /*
          * TODO:
-         * - if no questions then suggest new category
          * - read unanswered questions from localstorage
          * - get new questions if not enough unanswered questions (10)
          * - store in localstorage unanswered questions
-         * - Toast for correct vs incorrect answer
          * - display all-time records
          */
         this.question = this.questions.FirstOrDefault() ?? new Question();
@@ -126,7 +144,6 @@
          * TODO:
          * - store in localstorage unanswered questions
          * - store all-time record for category
-         * - at end of game hide submit button and add "Play again" button for this category or pick new category
          */
 
         // check answer
@@ -134,23 +151,22 @@
         {
             // update score
             this.score++;
-            this.ToastObj.Content = "Correct!";
+            this.toastObj!.Content = "Correct!";
         }
         else
         {
-            this.ToastObj.Content = $"Incorrect!<br />The correct answer is: \"{question?.CorrectAnswer}\"";
+            this.toastObj!.Content = $"Incorrect!<br />The correct answer is: \"{question?.CorrectAnswer}\"";
         }
 
         // show toast
-        await this.ToastObj.ShowAsync();
+        await this.toastObj.ShowAsync();
 
         // get next question
         if (this.questions.Length == 1)
         {
             // end game
-            // NavigationManager.NavigateTo($"/end/{CategoryId}/{score}");
             this.question = null;
-            this.stats = $"Your score: {this.score}/10";
+            this.stats = $"Your score: {this.score}/{this.numberOfQuestions}";
             this.gameEnded = true;
         }
         else
@@ -158,10 +174,15 @@
             this.question = this.questions[1];
             this.answers = GetAnswers(this.question);
             this.questions = this.questions.Skip(1).ToArray();
-            this.stats = $"Question {10 - this.questions.Length + 1}/10 - Your score: {this.score}";
+            this.stats = $"Question {this.numberOfQuestions - this.questions.Length + 1}/{this.numberOfQuestions} - Your score: {this.score}";
         }
 
         this.checkedValue = string.Empty;
+    }
+
+    private void ShowScores()
+    {
+        // NavigationManager.NavigateTo($"/end/{CategoryId}/{score}");
     }
 
     private async Task PlayAgain()
@@ -169,8 +190,9 @@
         this.loading = true;
         this.gameEnded = false;
         this.score = 0;
-        this.stats = "Question 1/10 - Your score: 0";
         this.questions = await this.OpenTriviaDbService.GetQuestionsAsync(10, Convert.ToInt16(CategoryId), OpenTriviaDbEnums.QuestionType.MultiChoice, OpenTriviaDbEnums.Difficulty.Easy);
+        this.numberOfQuestions = this.questions.Length;
+        this.stats = $"Question 1/{this.numberOfQuestions} - Your score: 0";
         this.question = this.questions.FirstOrDefault() ?? new Question();
         this.answers = GetAnswers(this.question);
         this.loading = false;
