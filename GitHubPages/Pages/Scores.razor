@@ -82,6 +82,7 @@
     <CardFooter>
         <CardFooterContent>
             <SfButton CssClass="e-btn e-outline e-primary" @onclick="GoHome">Go Home</SfButton>
+            <SfButton CssClass="e-btn e-outline e-primary" @onclick="ClearScores">Clear Scores</SfButton>
         </CardFooterContent>
     </CardFooter>
 </SfCard>
@@ -172,5 +173,9 @@
         NavigationManager.NavigateTo("/");
     }
 
-    public void Dispose() => registration?.Dispose();
+    private void ClearScores()
+    {
+        LocalStorage.ClearAsync();
+        this.GoHome();
+    }
 }
