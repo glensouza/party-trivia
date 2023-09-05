@@ -28,7 +28,7 @@ public class WeatherForecastFunction
         {
             Date = DateTime.Now.AddDays(index),
             TemperatureC = temp = randomNumber.Next(-20, 55),
-            Summary = GetSummary(temp)
+            Summary = this.GetSummary(temp)
         }).ToArray();
 
         return new OkObjectResult(result);

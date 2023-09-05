@@ -192,7 +192,7 @@
 		SidebarToggle = !SidebarToggle; 
 		SidebarToggleFixed = !SidebarToggleFixed; 
 	} 
-	public async Task MouseIn(Microsoft.AspNetCore.Components.Web.MouseEventArgs args) 
+	public async Task MouseIn(MouseEventArgs args) 
 	{ 
 		bool isSidebar = await JS.InvokeAsync<bool>("isSidebar", args.ClientX, args.ClientY); 
 		if (!SidebarToggle && isSidebar) 
@@ -200,7 +200,7 @@
 			SidebarToggle = true; 
 		} 
 	} 
-	public async Task MouseOut(Microsoft.AspNetCore.Components.Web.MouseEventArgs args) 
+	public async Task MouseOut(MouseEventArgs args) 
 	{ 
 		bool isSidebar = await JS.InvokeAsync<bool>("isSidebar", args.ClientX, args.ClientY); 
 		if (SidebarToggle && !isSidebar) 

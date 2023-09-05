@@ -33,7 +33,7 @@
 
     private void HandleCategorySelected(string selectedCategory)
     {
-        this.categoryId = selectedCategory;
+        categoryId = selectedCategory;
     }
 
     private void StartGame() => NavigationManager.NavigateTo($"/game/{categoryId}");

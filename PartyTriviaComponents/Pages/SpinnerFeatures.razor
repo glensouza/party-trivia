@@ -100,16 +100,16 @@
         new TypesFields(){ ID= "HighContrast", Text= "High Contrast" },
         new TypesFields(){ ID= "Material", Text= "Material" }
     };
-    private void onChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, TypesFields> args)
+    private void onChange(ChangeEventArgs<string, TypesFields> args)
     {
-        spinnerType = (SpinnerType)System.Enum.Parse(typeof(SpinnerType), args.Value);
+        spinnerType = (SpinnerType)Enum.Parse(typeof(SpinnerType), args.Value);
     }
     void ShowSpinner()
     {
-        this.VisibleSpinner = true;
+        VisibleSpinner = true;
     }
     void HideSpinner()
     {
-        this.VisibleSpinner = false;
+        VisibleSpinner = false;
     }
 }

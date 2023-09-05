@@ -7,9 +7,9 @@
 <SfGrid  ID="Grid" DataSource="@Orders"  @ref="Grid" AllowPaging="true" AllowFiltering="true" AllowReordering="true" AllowResizing="true" AllowGrouping="true" AllowExcelExport="true" AllowSelection="true"
               AllowSorting="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Cancel", "Update","ExcelExport","Search"})" Height="315" Width="900">        
         <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="EditMode.Dialog"></GridEditSettings>
-        <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.FilterBar"></GridFilterSettings>
+        <GridFilterSettings Type="FilterType.FilterBar"></GridFilterSettings>
     <GridPageSettings PageSizes="true"></GridPageSettings>
-	<GridSelectionSettings Type="Syncfusion.Blazor.Grids.SelectionType.Multiple"></GridSelectionSettings>
+	<GridSelectionSettings Type="SelectionType.Multiple"></GridSelectionSettings>
         <GridEvents OnToolbarClick="ToolbarClick" TValue="Order"></GridEvents>
         <GridColumns>
             <GridColumn Type='ColumnType.CheckBox' Width="50"></GridColumn>
@@ -71,7 +71,7 @@
     {
         if (args.Item.Id == "Grid_excelexport")
         {
-                this.Grid?.ExportToExcelAsync();
+                Grid?.ExportToExcelAsync();
         }
     }
     public class Order

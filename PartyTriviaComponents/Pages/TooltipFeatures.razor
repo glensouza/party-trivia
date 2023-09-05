@@ -74,16 +74,16 @@
 </style>
 @code{
     public string Content = "Lets go green & Save Earth !!";
-    Syncfusion.Blazor.Popups.Position Position, NewPosition;
-    void SelectItems(MSComponents.ChangeEventArgs eventArgs)
+    Position Position, NewPosition;
+    void SelectItems(ChangeEventArgs eventArgs)
     {
         string? value = eventArgs.Value != null ? eventArgs.Value.ToString() : String.Empty;
         if(value != null)
         {
-            Syncfusion.Blazor.Popups.Position selectedPos = (Syncfusion.Blazor.Popups.Position)Enum.Parse(typeof(Syncfusion.Blazor.Popups.Position), value);
-            foreach (Syncfusion.Blazor.Popups.Position position in Enum.GetValues(typeof(Syncfusion.Blazor.Popups.Position)))
+            Position selectedPos = (Position)Enum.Parse(typeof(Position), value);
+            foreach (Position position in Enum.GetValues(typeof(Position)))
             {
-                NewPosition = (Syncfusion.Blazor.Popups.Position)Enum.Parse(typeof(Syncfusion.Blazor.Popups.Position), position.ToString());
+                NewPosition = (Position)Enum.Parse(typeof(Position), position.ToString());
                 if (selectedPos == NewPosition)
                 {
                     Position = NewPosition;
@@ -94,6 +94,6 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Position = Syncfusion.Blazor.Popups.Position.TopLeft;
+        Position = Position.TopLeft;
     }
 }

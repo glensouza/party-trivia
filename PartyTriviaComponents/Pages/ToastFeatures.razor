@@ -57,10 +57,10 @@
     private string ToastContent = "Conference Room 01 / Building 135 10:00 AM-10:30 AM";
     private void ShowOnClick()
     {
-        this.ToastObj?.ShowAsync();
+        ToastObj?.ShowAsync();
     }
     private void HideOnClick()
     {
-        this.ToastObj?.HideAsync("All");
+        ToastObj?.HideAsync("All");
     }
 }

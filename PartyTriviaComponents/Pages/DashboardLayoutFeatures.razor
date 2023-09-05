@@ -90,10 +90,10 @@
     public int Count = 9;
     public async Task AddClick(EventArgs args)
     {
-        string ContentValue = this.Count.ToString();
+        string ContentValue = Count.ToString();
         PanelModel panel = new PanelModel
         {
-            Id = this.Count.ToString() + "_layout",
+            Id = Count.ToString() + "_layout",
             SizeX = 1,
             SizeY = 1,
             Column = 0,
@@ -101,6 +101,6 @@
             Header = @<div class='text-align'> Panel @ContentValue </div>
         };
         await dashboardObject!.AddPanelAsync(panel);
-        this.Count = this.Count + 1;
+        Count = Count + 1;
     }
 }
