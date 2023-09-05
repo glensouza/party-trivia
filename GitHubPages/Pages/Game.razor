@@ -60,7 +60,7 @@
     private string category = string.Empty;
     private string stats = "Question 1/10 - Your score: 0";
     private int score = 0;
-    private int numberOfQuestions = 10;
+    private int numberOfQuestions = 0;
     private bool gameEnded = false;
     private bool changeCategory = false;
 
@@ -96,8 +96,28 @@
             category = TriviaCategories.FirstOrDefault(x => x.Id == CategoryId)?.Name ?? string.Empty;
         }
 
+        // read unanswered questions from localstorage
+        string cachedUnansweredQuestions = await LocalStorage.GetItemAsStringAsync($"unansweredQuestions-{CategoryId}");
+        if (!string.IsNullOrEmpty(cachedUnansweredQuestions))
+        {
+            this.questions = JsonConvert.DeserializeObject<Question[]>(cachedUnansweredQuestions) ?? Array.Empty<Question>();
+            this.numberOfQuestions = this.questions.Length;
+        }
+
         // get 10 questions
-        this.questions = await this.OpenTriviaDbService.GetQuestionsAsync(10, Convert.ToInt16(CategoryId), OpenTriviaDbEnums.QuestionType.MultiChoice, OpenTriviaDbEnums.Difficulty.Easy);
+        if (this.numberOfQuestions < 10)
+        {
+            Question[]? moreQuestions = await this.OpenTriviaDbService.GetQuestionsAsync(10 - this.numberOfQuestions, Convert.ToInt16(CategoryId), OpenTriviaDbEnums.QuestionType.MultiChoice, OpenTriviaDbEnums.Difficulty.Easy);
+            if (moreQuestions is not null)
+            {
+                this.questions = this.questions.Concat(moreQuestions).ToArray();
+            }
+        }
+
+        // store unanswered questions in localstorage
+        await LocalStorage.SetItemAsStringAsync($"unansweredQuestions-{CategoryId}", JsonConvert.SerializeObject(this.questions));
+
+        this.questions.Shuffle();
         this.numberOfQuestions = this.questions.Length;
         if (this.numberOfQuestions == 0)
         {
@@ -105,7 +125,11 @@
             this.stats = "No questions found for this category. Please try another category.";
             this.loading = false;
             this.changeCategory = true;
-            TriviaCategories.Remove(TriviaCategories.FirstOrDefault(x => x.Id == CategoryId));
+            if (TriviaCategories.Any(s => s.Id == CategoryId))
+            {
+                TriviaCategories.Remove(TriviaCategories.FirstOrDefault(s => s.Id == CategoryId)!);
+            }
+
             await LocalStorage.SetItemAsStringAsync("triviaCategories", JsonConvert.SerializeObject(TriviaCategories));
             return;
         }
@@ -113,9 +137,6 @@
         this.stats = $"Question 1/{this.numberOfQuestions} - Your score: 0";
         /*
          * TODO:
-         * - read unanswered questions from localstorage
-         * - get new questions if not enough unanswered questions (10)
-         * - store in localstorage unanswered questions
          * - display all-time records
          */
         this.question = this.questions.FirstOrDefault() ?? new Question();
@@ -142,7 +163,6 @@
     {
         /*
          * TODO:
-         * - store in localstorage unanswered questions
          * - store all-time record for category
          */
 
@@ -177,6 +197,8 @@
             this.stats = $"Question {this.numberOfQuestions - this.questions.Length + 1}/{this.numberOfQuestions} - Your score: {this.score}";
         }
 
+        // store in localstorage unanswered questions
+        await LocalStorage.SetItemAsStringAsync($"unansweredQuestions-{CategoryId}", JsonConvert.SerializeObject(this.questions));
         this.checkedValue = string.Empty;
     }
 
