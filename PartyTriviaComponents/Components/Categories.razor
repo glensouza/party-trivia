@@ -58,19 +58,16 @@
 
     protected override async Task OnInitializedAsync()
     {
-        string cachedTriviaCategories = await LocalStorage.GetItemAsStringAsync("triviaCategories");
-        if (!string.IsNullOrEmpty(cachedTriviaCategories))
-        {
-            TriviaCategories = JsonConvert.DeserializeObject<List<TriviaCategory>>(cachedTriviaCategories) ?? new List<TriviaCategory>();
-        }
+        await base.OnInitializedAsync();
 
+        TriviaCategories = await LocalStorage.GetItemAsync<List<TriviaCategory>>("triviaCategories") ?? new List<TriviaCategory>();
         if (TriviaCategories.Count == 0)
         {
             TriviaCategory[]? newTriviaCategories = await OpenTriviaDbService.GetCategoriesAsync();
             if (newTriviaCategories != null)
             {
                 TriviaCategories = newTriviaCategories.OrderBy(s => s.Name).ToList();
-                await LocalStorage.SetItemAsStringAsync("triviaCategories", JsonConvert.SerializeObject(TriviaCategories));
+                await LocalStorage.SetItemAsync("triviaCategories", TriviaCategories);
             }
         }
     }

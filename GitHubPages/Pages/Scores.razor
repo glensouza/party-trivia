@@ -1,0 +1,99 @@
+﻿@inject NavigationManager NavigationManager
+@inject ILocalStorageService LocalStorage
+
+@page "/scores"
+
+<h3>Scores</h3>
+
+@if (categoryScores.Any())
+{
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper">
+            <div class="row">
+                <div id="container">
+                    <SfGrid DataSource="@categoryScores" EnableHeaderFocus="true" AllowSelection="true" AllowSorting="true" AllowFiltering="true" EnableVirtualization="true" EnableVirtualMaskRow="true" EnableHover="true" Height="600" RowHeight="38">
+                        <GridFilterSettings Type="FilterType.Menu"></GridFilterSettings>
+                        <GridPageSettings PageSize="20"></GridPageSettings>
+                        <GridColumns>
+                            <GridColumn Field="@nameof(Score.CategoryName)" HeaderText="Category" IsPrimaryKey="true" Width="200" ClipMode="ClipMode.EllipsisWithTooltip"></GridColumn>
+                            <GridColumn Field="@nameof(Score.Correct)" HeaderText="Correct" AllowFiltering="false" AllowSorting="false" Width="100"></GridColumn>
+                            <GridColumn Field="@nameof(Score.Total)" HeaderText="Total" AllowFiltering="false" AllowSorting="false" Width="100"></GridColumn>
+                            <GridColumn HeaderText="Proficiency" AllowFiltering="false" AllowSorting="false" Width="180">
+                                <Template>
+                                    @{
+                                        Score? score = (context as Score);
+                                        int percent = (int)Math.Round((double)(100 * score.Correct) / score.Total);
+                                        @if (percent < 75)
+                                        {
+                                            <div id="myProgress" class="pbar">
+                                                <div id="myBar" style="width:@percent%" class="bar progressdisable">
+                                                    <div id="label" class="barlabel">@percent%</div>
+                                                </div>
+                                            </div>
+                                        }
+                                        @if(percent >= 75)
+                                        {
+                                            <div id="myProgress" class="pbar">
+                                                <div id="myBar" style="width:@percent%" class="bar">
+                                                    <div id="label" class="barlabel">@percent%</div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </Template>
+                            </GridColumn>
+                        </GridColumns>
+                    </SfGrid>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>No scores yet.</p>
+}
+
+<style>
+    #myProgress {
+        position: relative;
+        height: 18px;
+        width: 10em;
+        text-align: left;
+        background-color: white;
+    }
+
+    .highcontrast .e-grid #myProgress {
+        background-color: black;
+    }
+
+    #myBar {
+        position: absolute;
+        width: 10%;
+        height: 100%;
+        background-color: #00b300;
+    }
+
+    #myBar.progressdisable {
+        background-color: #df2222;
+    }
+
+    #label {
+        position: relative;
+        left: 10px;
+        line-height: 18px;
+        font-size: 10px;
+        color: white;
+    }
+</style>
+
+@code {
+    private List<Score> categoryScores = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        this.categoryScores = await LocalStorage.GetItemAsync<List<Score>>("scores") ?? new List<Score>();
+    }
+}

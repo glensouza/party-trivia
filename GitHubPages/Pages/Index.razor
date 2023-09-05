@@ -14,6 +14,7 @@
         <CardFooter>
             <CardFooterContent>
                 <SfButton CssClass="e-btn e-outline e-primary" Disabled="@(string.IsNullOrEmpty(categoryId))" @onclick="StartGame">Start Game</SfButton>
+                <SfButton CssClass="e-btn e-outline e-primary" @onclick="ShowScores">Show Scores</SfButton>
             </CardFooterContent>
         </CardFooter>
     </SfCard>
@@ -36,4 +37,6 @@
     }
 
     private void StartGame() => NavigationManager.NavigateTo($"/game/{categoryId}");
+
+    private void ShowScores() => NavigationManager.NavigateTo("/scores");
 }
