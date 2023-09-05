@@ -1,7 +1,4 @@
-﻿@using Syncfusion.Blazor.Buttons
-@using Syncfusion.Blazor.Cards
-
-@inject NavigationManager NavigationManager
+﻿@inject NavigationManager NavigationManager
 
 @page "/"
 
@@ -10,10 +7,12 @@
 <section id="start" className="text-white text-center mb-5 container">
     <SfCard ID="BasicCard">
         <CardHeader Title="Trivia Game" />
-        <CardContent Content="Do you a want to test your trivia knowledge? Put it to the test and see how much you really know!" />
+        <CardContent>
+            <p>Do you a want to test your trivia knowledge? Put it to the test and see how much you really know!</p>
+            <Categories CategorySelected="HandleCategorySelected"></Categories>
+        </CardContent>
         <CardFooter>
             <CardFooterContent>
-                <Categories CategorySelected="HandleCategorySelected"></Categories>
                 <SfButton CssClass="e-btn e-outline e-primary" Disabled="@(string.IsNullOrEmpty(categoryId))" @onclick="StartGame">Start Game</SfButton>
             </CardFooterContent>
         </CardFooter>

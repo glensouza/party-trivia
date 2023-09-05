@@ -1,12 +1,5 @@
-﻿@using Syncfusion.Blazor.Spinner
-@using Syncfusion.Blazor.Buttons
-@using Syncfusion.Blazor.Cards
-@using PartyTriviaShared.Services
-@using PartyTriviaShared.Models
-@using Newtonsoft.Json
-
-@inject OpenTriviaDbService OpenTriviaDbService
-@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+﻿@inject OpenTriviaDbService OpenTriviaDbService
+@inject ILocalStorageService LocalStorage
 
 @page "/game/{CategoryId}"
 
@@ -19,15 +12,12 @@
             {
                 <h4>@stats</h4>
             }
-            @if (!loading && question is not null)
+            @if (!loading && question is not null && answers is not null)
             {
                 <p>@((MarkupString)question.QuestionText)</p>
-                <SfRadioButton Name="question" Value="@question.CorrectAnswer" @bind-Checked="checkedValue"></SfRadioButton>
-                @((MarkupString)question.CorrectAnswer)<br />
-                @foreach (string? answer in question.IncorrectAnswers)
+                @foreach (string? answer in answers)
                 {
-                    <SfRadioButton Name="question" Value="@answer" @bind-Checked="checkedValue"></SfRadioButton>
-                    @((MarkupString)answer)<br />
+                    <SfRadioButton Name="question" Value="@answer" @bind-Checked="checkedValue"></SfRadioButton>@((MarkupString)answer)<br />
                 }
             }
         </CardContent>
@@ -58,6 +48,7 @@
     private string checkedValue = string.Empty;
     private List<TriviaCategory> TriviaCategories { get; set; } = new();
     private Question? question = null;
+    private List<string>? answers = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -85,15 +76,29 @@
         this.questions = await this.OpenTriviaDbService.GetQuestionsAsync(10, Convert.ToInt16(CategoryId), OpenTriviaDbEnums.QuestionType.MultiChoice, OpenTriviaDbEnums.Difficulty.Easy);
         /*
          * TODO:
+         * - if no questions then suggest new category
          * - read unanswered questions from localstorage
          * - get new questions if not enough unanswered questions (10)
          * - store in localstorage unanswered questions
-         * - randomize answer placement
          */
         this.question = this.questions.FirstOrDefault() ?? new Question();
+        this.answers = GetAnswers(this.question);
     
         // spinner
         this.loading = false;
+    }
+
+    private List<string> GetAnswers(Question questionToBeAnswered)
+    {
+        if (questionToBeAnswered.CorrectAnswer is null)
+        {
+            return new List<string>();
+        }
+        
+        List<string> answersToBeShuffled = new() { questionToBeAnswered.CorrectAnswer };
+        answersToBeShuffled.AddRange(questionToBeAnswered.IncorrectAnswers);
+        answersToBeShuffled.Shuffle();
+        return answersToBeShuffled;
     }
 
     private void NextQuestion()
@@ -101,7 +106,6 @@
         /*
          * TODO:
          * - store in localstorage unanswered questions
-         * - randomize answer placement
          * - store all-time record for category
          * - at end of game hide submit button and add "Play again" button for this category or pick new category
          */
@@ -124,6 +128,7 @@
         else
         {
             this.question = this.questions[1];
+            this.answers = GetAnswers(this.question);
             this.questions = this.questions.Skip(1).ToArray();
             this.stats = $"Question {10 - this.questions.Length + 1}/10 - Your score: {this.score}";
         }
