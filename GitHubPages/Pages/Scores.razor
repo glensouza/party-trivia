@@ -1,5 +1,4 @@
-﻿@inject IJSRuntime JSRuntime
-@inject NavigationManager NavigationManager
+﻿@inject NavigationManager NavigationManager
 @inject ILocalStorageService LocalStorage
 
 @page "/scores"
@@ -126,12 +125,38 @@
 
 @code {
     private List<Score> categoryScores = new();
+    private IDisposable? registration;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
 
         categoryScores = await LocalStorage.GetItemAsync<List<Score>>("scores") ?? new List<Score>();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            registration = NavigationManager.RegisterLocationChangingHandler(OnLocationChanging);
+        }
+    }
+
+    private ValueTask OnLocationChanging(LocationChangingContext context)
+    {
+        bool isGame = context.TargetLocation.Contains("/game");
+
+        if (isGame)
+        {
+            context.PreventNavigation();
+            this.GoHome();
+        }
+        else
+        {
+            registration?.Dispose();
+        }
+
+        return ValueTask.CompletedTask;
     }
 
     private int GetWeightedAggregate()
@@ -146,4 +171,6 @@
     {
         NavigationManager.NavigateTo("/");
     }
+
+    public void Dispose() => registration?.Dispose();
 }
